@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cash Memo 1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .memo {
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .details {
+        margin: 20px 0;
+      }
+      .item-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+      }
+      .separator {
+        border-top: 1px dashed #000;
+        margin: 10px 0;
+      }
+      .total {
+        font-weight: bold;
+        text-align: right;
+        margin-top: 20px;
+      }
+      .download-btn {
+        display: inline-block;
+        width: 250px;
+        margin: 20px 0;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      .download-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="receipt" class="memo">
+      <div class="header">
+        <h2>CASH MEMO</h2>
+        <h3>VENKATESWARA AND CO</h3>
+        <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
+        <p>MADIWALA</p>
+        <p>BANGALORE-560068</p>
+      </div>
+
+      <div class="details">
+        <div style="display: flex; justify-content: space-between">
+          <p>MID: 3</p>
+          <p>DATE: 06/05/24</p>
+        </div>
+        <div style="display: flex; justify-content: space-between">
+          <p>BILL NO: 98873</p>
+          <p>TIME: 11:54</p>
+        </div>
+        <p>NAME:</p>
+      </div>
+
+      <div class="separator"></div>
+
+      <div style="display: flex; justify-content: space-between">
+        <span>ITEM NAME</span>
+        <span>QTY</span>
+        <span>PRICE</span>
+        <span>AMOUNT</span>
+      </div>
+
+      <div class="separator"></div>
+
+      <div style="display: flex; justify-content: space-between">
+        <span>M.S.ULP</span>
+        <span>35.00Lt</span>
+        <span>101.35</span>
+        <span>3547.25</span>
+      </div>
+
+      <div class="separator"></div>
+
+      <div style="display: flex; justify-content: space-between">
+        <span>TOTAL ITEM(S):1 /QTY:35.00</span>
+        <span>3547.25</span>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="total">
+        <p>TOTAL: ₹ 3547.25</p>
+      </div>
+
+      <div class="separator"></div>
+    </div>
+
+    <button class="download-btn" onclick="downloadPDF()">
+      Download Cash Memo as PDF
+    </button>
+
+    <script>
+      function downloadPDF() {
+        const element = document.getElementById("receipt");
+        const opt = {
+          margin: 0.5,
+          filename: "cash-memo-venkateswara.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        };
+
+        html2pdf().set(opt).from(element).save();
+      }
+    </script>
+  </body>
+</html>

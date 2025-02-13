@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cash Memo 2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .memo {
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+      .bp-logo {
+        width: 100px;
+        display: block;
+        margin: 0 auto 20px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+        font-size: 14px;
+      }
+      .receipt-label {
+        flex: 1;
+      }
+      .receipt-value {
+        flex: 1;
+        text-align: right;
+      }
+      .thank-you {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .download-btn {
+        display: inline-block;
+        width: 250px;
+        margin: 20px 0;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+      .download-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="receipt" class="memo">
+      <img src="image.png" alt="Bharat Petroleum Logo" class="bp-logo" />
+      <div class="header">
+        <h2 style="margin: 5px 0">CASH MEMO</h2>
+        <h3 style="margin: 5px 0">GURUKRUPA SERVICE STATION</h3>
+        <p style="margin: 5px 0">HOSUR ROAD, SINGASANDARA</p>
+        <p style="margin: 5px 0">BANGALORE 560114</p>
+      </div>
+
+      <div class="details">
+        <div class="receipt-row">
+          <span class="receipt-label">Date:</span>
+          <span class="receipt-value">20-06-2024</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Time:</span>
+          <span class="receipt-value">08:57</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">BayNo:</span>
+          <span class="receipt-value">1</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">NozzleNo:</span>
+          <span class="receipt-value">2</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Product:</span>
+          <span class="receipt-value">PETROL</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">PayMode:</span>
+          <span class="receipt-value">Cash</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Txn Id:</span>
+          <span class="receipt-value">6853434</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Attendant:</span>
+          <span class="receipt-value"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">TxSt:</span>
+          <span class="receipt-value">20-06-2024 02:17</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">TxEnd:</span>
+          <span class="receipt-value">20-06-2024 02:17</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Rate/Ltr:</span>
+          <span class="receipt-value">99.84</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Volume(Ltr.):</span>
+          <span class="receipt-value">37.00</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Amount (Rs.):</span>
+          <span class="receipt-value">3694.08</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">PresetType:</span>
+          <span class="receipt-value">Local Amount</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Preset Value:</span>
+          <span class="receipt-value">3680.45.24</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">VechNo:</span>
+          <span class="receipt-value"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">MobileNo:</span>
+          <span class="receipt-value">+91</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">VAT TIN:2739000298 V</span>
+          <span class="receipt-value"></span>
+        </div>
+      </div>
+
+      <div class="thank-you">
+        <p>THANK YOU !! VISIT AGAIN !!!</p>
+      </div>
+    </div>
+
+    <button class="download-btn" onclick="downloadPDF()">Download Cash Memo as PDF</button>
+
+    <script>
+      function downloadPDF() {
+        const element = document.getElementById('receipt');
+        const opt = {
+          margin: 0.5,
+          filename: 'cash-memo-gurukrupa.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save();
+      }
+    </script>
+  </body>
+</html>
