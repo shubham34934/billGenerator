@@ -4,14 +4,44 @@
     <title>Cash Memos</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+      /* Import Courier Prime font */
       @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap");
+
+      /* Define Courier New font-face for all weights */
+      @font-face {
+        font-family: 'Courier New';
+        src: local('Courier New');
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'Courier New';
+        src: local('Courier New Bold');
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'Courier New';
+        src: local('Courier New Bold');
+        font-weight: 600;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'Courier New';
+        src: local('Courier New Bold');
+        font-weight: 700;
+        font-style: normal;
+      }
 
       html,
       body {
         margin: 0;
         padding: 0;
         background-color: white;
-        font-family: "Courier Prime", monospace;
+        font-family: "Courier New", "Courier Prime", monospace;
       }
 
       body {
@@ -334,16 +364,16 @@
 
       function generateReceiptHTML(data) {
         return `
-          <div class="memo" style="background-color: white; box-shadow: none; background-image: none; transform: none; border: none; margin-bottom: 30px; font-family: 'Courier New', monospace; padding: 15px; width: 280px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 10px;">
-              <img src="indianoil.png" alt="Indian Oil Logo" style="width: 70px; margin-bottom: 3px;" />
+          <div class="memo" style="background-color: white; box-shadow: none; background-image: none; transform: none; border: none; margin-bottom: 30px; font-family: 'Courier New', 'Courier Prime', monospace; padding: 15px; width: 280px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 5px;">
+              <img src="indianoil.png" alt="Indian Oil Logo" style="width: 80px; margin-bottom: 0px;" />
             </div>
             
-            <div style="text-align: center; margin-bottom: 12px;">
-              <div style="font-size: 13px; font-weight: normal; letter-spacing: 0.5px; margin-bottom: 3px;">CASH MEMO</div>
-              <div style="font-size: 12px; font-weight: normal; margin-bottom: 1px;">SREE KODANDRAMA SERVICE</div>
-              <div style="font-size: 12px; font-weight: normal; margin-bottom: 1px;">STATION</div>
-              <div style="font-size: 12px; font-weight: normal;">SARJAPURA ROAD, BANGALORE</div>
+            <div style="text-align: center; margin-bottom: 14px;">
+              <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.5px; margin-bottom: 3px;">CASH MEMO</div>
+              <div style="font-size: 12px; font-weight: 500; margin-bottom: 1px;">SREE KODANDRAMA SERVICE</div>
+              <div style="font-size: 12px; font-weight: 500; margin-bottom: 1px;">STATION</div>
+              <div style="font-size: 12px; font-weight: 500;">SARJAPURA ROAD, BANGALORE</div>
             </div>
 
             <div style="display: flex; justify-content: space-between; margin-bottom: 9px; font-size: 12px;">
@@ -427,10 +457,22 @@
           </div>`;
       }
 
+      // Keep track of the last generated date to maintain max 5-day gap
+      let lastGeneratedDay = null;
+      let lastGeneratedMonth = null;
+      let lastGeneratedYear = null;
+
       function generateRandomReceipt(month, year) {
         const stations = [
           "SREE KODANDRAMA SERVICE STATION",
         ];
+
+        // Reset lastGeneratedDay if month or year changes
+        if (lastGeneratedMonth !== month || lastGeneratedYear !== year) {
+          lastGeneratedDay = null;
+          lastGeneratedMonth = month;
+          lastGeneratedYear = year;
+        }
 
         const startTime = document.getElementById("startTime").value;
         const endTime = document.getElementById("endTime").value;
@@ -450,10 +492,29 @@
         // Use petrol price from constants based on month
         const rate = PETROL_PRICES[month];
 
+        // Generate a random day with EXACTLY 5-day gap from the last generated day
+        let day;
+        if (lastGeneratedDay === null) {
+          // First receipt - random day between 1 and 5
+          day = Math.floor(Math.random() * 5) + 1;
+        } else {
+          // Subsequent receipts - EXACTLY 5 days after the last one
+          day = lastGeneratedDay + 5;
+          
+          // If we've exceeded the month's days, wrap to the next month
+          // For simplicity, we'll just reset to day 1
+          if (day > getDaysInMonth(month, year)) {
+            day = 1;
+          }
+        }
+        
+        // Update the last generated day
+        lastGeneratedDay = day;
+
         const data = {
           station: stations[Math.floor(Math.random() * stations.length)],
           address: "SARJAPURA ROAD",
-          day: String(Math.floor(Math.random() * 28) + 1).padStart(2, "0"),
+          day: String(day).padStart(2, "0"),
           month: month,
           year: year,
           hours: randomTime.hours,
@@ -477,6 +538,12 @@
           html: generateReceiptHTML(data),
           total: parseFloat(data.total),
         };
+      }
+
+      // Helper function to get days in a month
+      function getDaysInMonth(month, year) {
+        // month is 1-indexed in our app, but Date expects 0-indexed month
+        return new Date(year, month, 0).getDate();
       }
 
       function validateInputs() {
@@ -525,6 +592,11 @@
         const targetAmount = parseFloat(
           document.getElementById("targetAmount").value
         );
+
+        // Reset the last generated day when starting a new batch of receipts
+        lastGeneratedDay = null;
+        lastGeneratedMonth = month;
+        lastGeneratedYear = year;
 
         // Create a temporary container
         const container = document.createElement("div");
