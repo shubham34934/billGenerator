@@ -294,9 +294,37 @@
           />
         </div>
 
-        <button id="generatePdfBtn" style="padding: 10px 20px">
-          Generate Receipts PDF
-        </button>
+        <div style="margin-top: 20px;">
+          <button
+            onclick="generateMultiPagePDF()"
+            style="
+              padding: 10px 20px;
+              background-color: #4caf50;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+              margin-right: 10px;
+            "
+          >
+            Generate PDF
+          </button>
+          <button
+            onclick="testSingleReceiptPDF()"
+            style="
+              padding: 10px 20px;
+              background-color: #2196F3;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+            "
+          >
+            Test Single Receipt
+          </button>
+        </div>
       </div>
     </div>
 
@@ -319,11 +347,6 @@
       option.text = currentYear;
       option.selected = true;
       yearSelector.appendChild(option);
-
-      // Add click handler for the generate button
-      document
-        .getElementById("generatePdfBtn")
-        .addEventListener("click", generateMultiPagePDF);
 
       // Initialize the receipt preview with sample data
       document.addEventListener('DOMContentLoaded', function() {
@@ -351,8 +374,8 @@
       });
 
       function getRandomTime(startTime, endTime) {
-        const start = new Date(`2000-01-01 ${startTime}`);
-        const end = new Date(`2000-01-01 ${endTime}`);
+        const start = new Date(`2000-01-01T${startTime}`);
+        const end = new Date(`2000-01-01T${endTime}`);
         const randomTime = new Date(
           start.getTime() + Math.random() * (end.getTime() - start.getTime())
         );
@@ -364,7 +387,7 @@
 
       function generateReceiptHTML(data) {
         return `
-          <div class="memo" style="background-color: white; box-shadow: none; background-image: none; transform: none; border: none; margin-bottom: 30px; font-family: 'Courier New', 'Courier Prime', monospace; padding: 15px; width: 280px; margin: 0 auto;">
+          <div class="memo" style="background-color: white; box-shadow: none; border: none; font-family: 'Courier New', 'Courier Prime', monospace; padding: 15px; width: 280px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 5px;">
               <img src="indianoil.png" alt="Indian Oil Logo" style="width: 80px; margin-bottom: 0px;" />
             </div>
@@ -454,7 +477,8 @@
             <div style="font-size: 12px; margin-bottom: 9px;">GST NO:29ALCPM1156C1ZF</div>
             
             <div style="text-align: center; margin-top: 8px; font-size: 12px;">THANK YOU !! VISIT AGAIN !!!</div>
-          </div>`;
+          </div>
+        `;
       }
 
       // Keep track of the last generated date to maintain max 5-day gap
@@ -492,14 +516,15 @@
         // Use petrol price from constants based on month
         const rate = PETROL_PRICES[month];
 
-        // Generate a random day with EXACTLY 5-day gap from the last generated day
+        // Generate a random day with gap between 5-8 days from the last generated day
         let day;
         if (lastGeneratedDay === null) {
           // First receipt - random day between 1 and 5
           day = Math.floor(Math.random() * 5) + 1;
         } else {
-          // Subsequent receipts - EXACTLY 5 days after the last one
-          day = lastGeneratedDay + 5;
+          // Subsequent receipts - random gap between 5-8 days after the last one
+          const gap = Math.floor(Math.random() * 4) + 5; // Random number between 5-8
+          day = lastGeneratedDay + gap;
           
           // If we've exceeded the month's days, wrap to the next month
           // For simplicity, we'll just reset to day 1
@@ -598,72 +623,206 @@
         lastGeneratedMonth = month;
         lastGeneratedYear = year;
 
-        // Create a temporary container
+        // Save original body background
+        const originalBodyBg = document.body.style.backgroundColor;
+        const originalHtmlBg = document.documentElement.style.backgroundColor;
+        const originalBodyOverflow = document.body.style.overflow;
+        
+        // Create a container div for all receipts
         const container = document.createElement("div");
-        container.style.cssText = "padding: 20px;";
-
+        container.id = "pdf-container";
+        container.style.cssText = "background-color: #e0e0e0; padding: 20px; width: 100%; max-width: 800px; margin: 0 auto;";
+        
         let currentTotal = 0;
         let receipts = [];
+        let isFirstReceipt = true;
 
         // Generate receipts until target amount is reached or surpassed
         while (currentTotal < targetAmount) {
           const receipt = generateRandomReceipt(month, year);
           receipts.push(receipt);
           currentTotal += receipt.total;
-          container.innerHTML += receipt.html;
+          
+          // Create a receipt wrapper div
+          const receiptWrapper = document.createElement("div");
+          
+          // Only add page break after the first receipt
+          if (isFirstReceipt) {
+            receiptWrapper.style.cssText = "background-color: #e0e0e0; padding: 10px; margin-top: 20px; margin-bottom: 30px; page-break-inside: avoid; display: flex; justify-content: center;";
+            isFirstReceipt = false;
+          } else {
+            receiptWrapper.style.cssText = "background-color: #e0e0e0; padding: 10px; margin-top: 50px; margin-bottom: 30px; page-break-inside: avoid; page-break-before: always; display: flex; justify-content: center;";
+          }
+          
+          receiptWrapper.innerHTML = receipt.html;
+          container.appendChild(receiptWrapper);
         }
 
-        // Add container to body temporarily
-        document.body.appendChild(container);
+        // Add a footer spacer to ensure the background extends to the bottom of the page
+        const footerSpacer = document.createElement("div");
+        footerSpacer.style.cssText = "height: 100px; width: 100%; background-color: #e0e0e0;";
+        container.appendChild(footerSpacer);
 
-        // Generate PDF with all receipts
+        // Create a style element for PDF generation
+        const style = document.createElement('style');
+        style.textContent = `
+          @page {
+            margin: 0;
+            size: 8.5in 11in;
+            background-color: #e0e0e0;
+          }
+          body, html {
+            background-color: #e0e0e0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100% !important;
+          }
+          #pdf-container {
+            background-color: #e0e0e0 !important;
+            width: 100% !important;
+            min-height: 100% !important;
+          }
+          .memo {
+            margin: 0 auto !important;
+            margin-top: 20px !important;
+          }
+        `;
+        document.head.appendChild(style);
+
+        // Append container to body
+        document.body.appendChild(container);
+        
+        // Set background colors
+        document.body.style.backgroundColor = "#e0e0e0";
+        document.documentElement.style.backgroundColor = "#e0e0e0";
+        document.body.style.overflow = "hidden";
+
+        // PDF generation options
         const opt = {
-          margin: 0.5,
+          margin: [0, 0, 0, 0],
           filename: `cash-memos-${month}-${year}-${targetAmount}.pdf`,
-          image: { 
-            type: "jpeg", 
-            quality: 0.7,  // Reduced quality for mobile-like look
-          },
+          image: { type: "jpeg", quality: 0.98 },
           html2canvas: {
-            scale: 1.5,  // Slightly reduced scale for less crisp look
+            scale: 2,
             useCORS: true,
-            logging: false,
-            backgroundColor: null,  // Transparent background
-            filter: function(element) {
-              // Apply black and white filter
-              if (element.tagName === 'IMG' || element.tagName === 'DIV') {
-                element.style.filter = 'grayscale(100%) contrast(120%) brightness(90%)';
-              }
-              return true;
-            }
+            backgroundColor: "#e0e0e0",
+            windowHeight: 1056 // Force full letter page height (11in × 96dpi)
           },
           jsPDF: {
             unit: "in",
             format: "letter",
             orientation: "portrait",
+            compress: true,
+            putOnlyUsedFonts: true,
+            background: "#e0e0e0"
           },
-          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
+        // Generate PDF
         html2pdf()
-          .set(opt)
           .from(container)
+          .set(opt)
           .save()
           .then(() => {
+            // Clean up
             document.body.removeChild(container);
-            alert(
-              `Generated ${
-                receipts.length
-              } receipts\nTarget Amount: ₹${targetAmount.toFixed(
-                2
-              )}\nActual Total: ₹${currentTotal.toFixed(2)}`
-            );
+            document.head.removeChild(style);
+            document.body.style.backgroundColor = originalBodyBg;
+            document.documentElement.style.backgroundColor = originalHtmlBg;
+            document.body.style.overflow = originalBodyOverflow;
+            
+            alert(`Generated ${receipts.length} receipts with a total of ₹${currentTotal.toFixed(2)}`);
+          })
+          .catch(error => {
+            console.error("PDF generation error:", error);
+            alert("Error generating PDF: " + error.message);
+            
+            // Clean up on error too
+            if (document.body.contains(container)) {
+              document.body.removeChild(container);
+            }
+            if (document.head.contains(style)) {
+              document.head.removeChild(style);
+            }
+            document.body.style.backgroundColor = originalBodyBg;
+            document.documentElement.style.backgroundColor = originalHtmlBg;
+            document.body.style.overflow = originalBodyOverflow;
           });
       }
 
+      // Test function to generate a single receipt PDF for debugging
+      function testSingleReceiptPDF() {
+        const month = document.getElementById("monthSelector").value;
+        const year = document.getElementById("yearSelector").value;
+        
+        // Create a container
+        const container = document.createElement("div");
+        container.style.cssText = "background-color: #e0e0e0; padding: 20px; width: 100%; max-width: 800px; margin: 0 auto;";
+        
+        // Generate a single receipt
+        const receipt = generateRandomReceipt(month, year);
+        const receiptWrapper = document.createElement("div");
+        receiptWrapper.style.cssText = "background-color: #e0e0e0; padding: 10px; margin-top: 20px; display: flex; justify-content: center;";
+        receiptWrapper.innerHTML = receipt.html;
+        container.appendChild(receiptWrapper);
+        
+        // Add a footer spacer
+        const footerSpacer = document.createElement("div");
+        footerSpacer.style.cssText = "height: 100px; width: 100%; background-color: #e0e0e0;";
+        container.appendChild(footerSpacer);
+        
+        // Add style
+        const style = document.createElement('style');
+        style.textContent = `
+          @page {
+            margin: 0;
+            size: 8.5in 11in;
+            background-color: #e0e0e0;
+          }
+          body, html {
+            background-color: #e0e0e0 !important;
+            height: 100% !important;
+          }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(container);
+        
+        // Generate PDF
+        const opt = {
+          margin: 0,
+          filename: 'test-receipt.pdf',
+          image: { type: "jpeg", quality: 1 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#e0e0e0",
+            windowHeight: 1056 // Force full letter page height
+          },
+          jsPDF: {
+            unit: "in",
+            format: "letter",
+            orientation: "portrait",
+            background: "#e0e0e0"
+          },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+        
+        html2pdf()
+          .from(container)
+          .set(opt)
+          .save()
+          .then(() => {
+            document.body.removeChild(container);
+            document.head.removeChild(style);
+            alert("Test PDF generated!");
+          });
+      }
+      
       // Make functions available globally
       window.generateMultiPagePDF = generateMultiPagePDF;
       window.downloadPDF = downloadPDF;
+      window.testSingleReceiptPDF = testSingleReceiptPDF;
     </script>
   </body>
 </html>
