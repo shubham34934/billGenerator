@@ -24,81 +24,22 @@
 
       .memo {
         position: relative;
-        background-color: #f9f5eb;
-        border: 1px solid #e0d8c0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        background-color: white;
+        border: 1px solid #ddd;
         width: 100%;
         max-width: 400px;
-        padding: 30px;
+        padding: 20px;
         box-sizing: border-box;
-        overflow: hidden;
-        background-image: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.05) 50%,
-            transparent 50%
-          ),
-          linear-gradient(rgba(255, 255, 255, 0.05) 50%, transparent 50%);
-        background-size: 20px 20px;
-        border-radius: 2px;
-        transform: perspective(1000px) rotateX(1deg);
-        transition: all 0.3s ease;
-      }
-
-      .memo::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: repeating-linear-gradient(
-          transparent 0,
-          transparent 7px,
-          rgba(0, 0, 0, 0.03) 7px,
-          rgba(0, 0, 0, 0.03) 8px
-        );
-        transform: rotate(-45deg);
-        pointer-events: none;
-        opacity: 0.3;
-      }
-
-      .memo:hover {
-        transform: perspective(1000px) rotateX(0) scale(1.02);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12),
-          0 4px 8px rgba(0, 0, 0, 0.06);
       }
 
       .header {
         text-align: center;
         margin-bottom: 20px;
-        position: relative;
-      }
-
-      .header::after {
-        content: "";
-        display: block;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(to right, transparent, #000, transparent);
-        margin-top: 10px;
       }
 
       .details {
         margin: 20px 0;
-        line-height: 1.6;
-      }
-
-      .separator {
-        border-top: 1px dashed #8c8c8c;
-        margin: 10px 0;
-        opacity: 0.5;
-      }
-
-      .bp-logo {
-        width: 100px;
-        display: block;
-        margin: 0 auto 20px;
-        filter: grayscale(20%) contrast(110%);
+        line-height: 1.4;
       }
 
       .receipt-row {
@@ -110,47 +51,17 @@
 
       .receipt-label {
         flex: 1;
-        color: #333;
       }
 
       .receipt-value {
         flex: 1;
         text-align: right;
-        color: #000;
-        font-weight: bold;
       }
 
-      .total {
-        font-weight: bold;
-        text-align: right;
-        margin-top: 20px;
-        color: #000;
-      }
-
-      .download-btn {
-        display: inline-block;
-        width: 250px;
-        margin: 20px 0;
-        padding: 12px 20px;
-        text-align: center;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-      }
-
-      .download-btn:hover {
-        background-color: #2c2c2c;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-      }
-
-      .thank-you {
-        text-align: center;
-        margin-top: 20px;
-        font-style: italic;
-        color: #555;
+      .logo {
+        width: 120px;
+        display: block;
+        margin: 0 auto 20px;
       }
 
       @media print {
@@ -159,8 +70,7 @@
         }
         .memo {
           box-shadow: none !important;
-          border: 1px solid #ddd !important;
-          transform: none !important;
+          border: none !important;
         }
       }
     </style>
@@ -260,90 +170,29 @@
 
     <div id="receiptsContainer">
       <div id="receipt1" class="memo">
-        <div class="header">
-          <h2>CASH MEMO</h2>
-          <h3>VENKATESWARA AND CO</h3>
-          <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
-          <p>MADIWALA</p>
-          <p>BANGALORE-560068</p>
-        </div>
-
-        <div class="details">
-          <div style="display: flex; justify-content: space-between">
-            <p>MID: 3</p>
-            <p>DATE: 06/05/24</p>
-          </div>
-          <div style="display: flex; justify-content: space-between">
-            <p>BILL NO: 98873</p>
-            <p>TIME: 11:54</p>
-          </div>
-          <p>NAME:</p>
-        </div>
-
-        <div class="separator"></div>
-
-        <div style="display: flex; justify-content: space-between">
-          <span>ITEM NAME</span>
-          <span>QTY</span>
-          <span>PRICE</span>
-          <span>AMOUNT</span>
-        </div>
-
-        <div class="separator"></div>
-
-        <div style="display: flex; justify-content: space-between">
-          <span>M.S.ULP</span>
-          <span>35.00Lt</span>
-          <span>101.35</span>
-          <span>3547.25</span>
-        </div>
-
-        <div class="separator"></div>
-
-        <div style="display: flex; justify-content: space-between">
-          <span>TOTAL ITEM(S):1 /QTY:35.00</span>
-          <span>3547.25</span>
-        </div>
-
-        <div class="separator"></div>
-
-        <div class="total">
-          <p>TOTAL: ₹ 3547.25</p>
-        </div>
-
-        <div class="separator"></div>
-      </div>
-      <div class="download-btn"></div>
-
-      <!-- <button class="download-btn" onclick="window.downloadPDF('receipt1')">
-        Download Venkateswara Cash Memo as PDF
-      </button> -->
-
-      <div id="receipt2" class="memo">
-        <img src="image.png" alt="Bharat Petroleum Logo" class="bp-logo" />
+        <img src="indianoil.png" alt="Indian Oil Logo" class="logo" />
         <div class="header">
           <h2 style="margin: 5px 0">CASH MEMO</h2>
-          <h3 style="margin: 5px 0">GURUKRUPA SERVICE STATION</h3>
-          <p style="margin: 5px 0">HOSUR ROAD, SINGASANDARA</p>
-          <p style="margin: 5px 0">BANGALORE 560114</p>
+          <h3 style="margin: 5px 0">SREE KODANDRAMA SERVICE STATION</h3>
+          <p style="margin: 5px 0">SARJAPURA ROAD, BANGALORE</p>
         </div>
 
         <div class="details">
           <div class="receipt-row">
             <span class="receipt-label">Date:</span>
-            <span class="receipt-value">20-06-2024</span>
+            <span class="receipt-value">04-01-2025</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Time:</span>
-            <span class="receipt-value">08:57</span>
+            <span class="receipt-value">18:39</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">BayNo:</span>
-            <span class="receipt-value">1</span>
+            <span class="receipt-value">4</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">NozzleNo:</span>
-            <span class="receipt-value">2</span>
+            <span class="receipt-value">1</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Product:</span>
@@ -355,31 +204,23 @@
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Txn Id:</span>
-            <span class="receipt-value">6853434</span>
+            <span class="receipt-value">1047339</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Attendant:</span>
             <span class="receipt-value"></span>
           </div>
           <div class="receipt-row">
-            <span class="receipt-label">TxSt:</span>
-            <span class="receipt-value">20-06-2024 02:17</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">TxEnd:</span>
-            <span class="receipt-value">20-06-2024 02:17</span>
-          </div>
-          <div class="receipt-row">
             <span class="receipt-label">Rate/Ltr:</span>
-            <span class="receipt-value">99.84</span>
+            <span class="receipt-value">102.98</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Volume(Ltr.):</span>
-            <span class="receipt-value">37.00</span>
+            <span class="receipt-value">33</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Amount (Rs.):</span>
-            <span class="receipt-value">3694.08</span>
+            <span class="receipt-value">3398.34</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">PresetType:</span>
@@ -387,7 +228,7 @@
           </div>
           <div class="receipt-row">
             <span class="receipt-label">Preset Value:</span>
-            <span class="receipt-value">3680.45</span>
+            <span class="receipt-value">33.00 Ltr</span>
           </div>
           <div class="receipt-row">
             <span class="receipt-label">VechNo:</span>
@@ -398,37 +239,26 @@
             <span class="receipt-value">+91</span>
           </div>
           <div class="receipt-row">
-            <span class="receipt-label">VAT TIN:2739000298 V</span>
-            <span class="receipt-value"></span>
+            <span class="receipt-label">GST NO:</span>
+            <span class="receipt-value">29ALCPM1156C1ZF</span>
           </div>
         </div>
 
-        <div class="thank-you">
+        <div style="text-align: center; margin-top: 20px">
           <p>THANK YOU !! VISIT AGAIN !!!</p>
         </div>
       </div>
-      <div class="download-btn"></div>
-      <!-- <button class="download-btn" onclick="window.downloadPDF('receipt2')">
-        Download Gurukrupa Cash Memo as PDF
-      </button> -->
     </div>
 
-    <script type="module">
-      import { PETROL_PRICES } from "./constants.js";
-
+    <script>
       // Populate year dropdown with current year
-      const currentYear = new Date().getFullYear() - 1;
+      const currentYear = new Date().getFullYear();
       const yearSelector = document.getElementById("yearSelector");
       const option = document.createElement("option");
       option.value = currentYear;
       option.text = currentYear;
       option.selected = true;
       yearSelector.appendChild(option);
-
-      // Add click handler for the generate button
-      document
-        .getElementById("generatePdfBtn")
-        .addEventListener("click", generateMultiPagePDF);
 
       function getRandomTime(startTime, endTime) {
         const start = new Date(`2000-01-01 ${startTime}`);
@@ -442,73 +272,14 @@
         };
       }
 
-      function generateTemplate1(data) {
+      function generateTemplate(data) {
         return `
           <div class="memo" style="margin-bottom: 30px;">
-            <div class="header">
-              <h2>CASH MEMO</h2>
-              <h3>${data.station}</h3>
-              <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
-              <p>MADIWALA</p>
-              <p>BANGALORE-${data.pincode}</p>
-            </div>
-
-            <div class="details">
-              <div style="display: flex; justify-content: space-between">
-                <p>MID: ${data.mid}</p>
-                <p>DATE: ${data.day}/${data.month}/${data.year}</p>
-              </div>
-              <div style="display: flex; justify-content: space-between">
-                <p>BILL NO: ${data.billNo}</p>
-                <p>TIME: ${data.hours}:${data.minutes}</p>
-              </div>
-              <p>NAME:</p>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>ITEM NAME</span>
-              <span>QTY</span>
-              <span>PRICE</span>
-              <span>AMOUNT</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>M.S.ULP</span>
-              <span>${data.quantity}Lt</span>
-              <span>${data.rate}</span>
-              <span>${data.total}</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>TOTAL ITEM(S):1 /QTY:${data.quantity}</span>
-              <span>${data.total}</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div class="total">
-              <p>TOTAL: ₹ ${data.total}</p>
-            </div>
-
-            <div class="separator"></div>
-          </div>`;
-      }
-
-      function generateTemplate2(data) {
-        return `
-          <div class="memo" style="margin-bottom: 30px;">
-            <img src="image.png" alt="Bharat Petroleum Logo" class="bp-logo" />
+            <img src="indianoil.png" alt="Indian Oil Logo" class="logo" />
             <div class="header">
               <h2 style="margin: 5px 0">CASH MEMO</h2>
-              <h3 style="margin: 5px 0">${data.station}</h3>
-              <p style="margin: 5px 0">HOSUR ROAD, SINGASANDARA</p>
-              <p style="margin: 5px 0">BANGALORE ${data.pincode}</p>
+              <h3 style="margin: 5px 0">SREE KODANDRAMA SERVICE STATION</h3>
+              <p style="margin: 5px 0">SARJAPURA ROAD, BANGALORE</p>
             </div>
 
             <div class="details">
@@ -562,7 +333,7 @@
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">Preset Value:</span>
-                <span class="receipt-value">${data.presetValue}</span>
+                <span class="receipt-value">${data.quantity}.00 Ltr</span>
               </div>
               <div class="receipt-row">
                 <span class="receipt-label">VechNo:</span>
@@ -573,187 +344,28 @@
                 <span class="receipt-value">+91</span>
               </div>
               <div class="receipt-row">
-                <span class="receipt-label">VAT TIN:2739000298 V</span>
-                <span class="receipt-value"></span>
+                <span class="receipt-label">GST NO:</span>
+                <span class="receipt-value">29ALCPM1156C1ZF</span>
               </div>
             </div>
 
-            <div class="thank-you">
+            <div style="text-align: center; margin-top: 20px">
               <p>THANK YOU !! VISIT AGAIN !!!</p>
             </div>
           </div>`;
       }
 
       function generateRandomReceipt(month, year) {
-        const stations = [
-          "Venkateswara And Co",
-          "Gurukrupa Service Station",
-          "Bharat Petroleum",
-          "Indian Oil Corporation",
-        ];
-
         const startTime = document.getElementById("startTime").value;
         const endTime = document.getElementById("endTime").value;
-        const minQuantity = parseInt(
-          document.getElementById("minQuantity").value
-        );
-        const maxQuantity = parseInt(
-          document.getElementById("maxQuantity").value
-        );
+        const minQuantity = parseFloat(document.getElementById("minQuantity").value);
+        const maxQuantity = parseFloat(document.getElementById("maxQuantity").value);
 
-        // Generate random data for the receipt
-        const randomTime = getRandomTime(startTime, endTime);
-        const quantity = Math.floor(
-          Math.random() * (maxQuantity - minQuantity + 1) + minQuantity
-        );
-
-        // Use petrol price from constants based on month
-        const rate = PETROL_PRICES[month];
+        const time = getRandomTime(startTime, endTime);
+        const quantity = (minQuantity + Math.random() * (maxQuantity - minQuantity)).toFixed(2);
+        const rate = (100 + Math.random() * 5).toFixed(2);
+        const total = (quantity * rate).toFixed(2);
 
         const data = {
-          station: stations[Math.floor(Math.random() * stations.length)],
-          day: String(Math.floor(Math.random() * 28) + 1).padStart(2, "0"),
-          month: month,
-          year: year,
-          hours: randomTime.hours,
-          minutes: randomTime.minutes,
-          quantity: quantity,
-          rate: rate.toFixed(2),
-          billNo: Math.floor(Math.random() * 90000) + 10000,
-          pincode: 560000 + Math.floor(Math.random() * 100),
-          mid: Math.floor(Math.random() * 10) + 1,
-          bayNo: Math.floor(Math.random() * 4) + 1,
-          nozzleNo: Math.floor(Math.random() * 4) + 1,
-          txnId: Math.floor(Math.random() * 9000000) + 1000000,
-          presetValue: quantity.toFixed(2) + " Ltr",
-        };
-
-        // Calculate total
-        data.total = (data.quantity * rate).toFixed(2);
-
-        // Randomly choose template (0 or 1)
-        return {
-          html:
-            Math.random() < 0.5
-              ? generateTemplate1(data)
-              : generateTemplate2(data),
-          total: parseFloat(data.total),
-        };
-      }
-
-      function validateInputs() {
-        const startTime = document.getElementById("startTime").value;
-        const endTime = document.getElementById("endTime").value;
-        const minQuantity = parseInt(
-          document.getElementById("minQuantity").value
-        );
-        const maxQuantity = parseInt(
-          document.getElementById("maxQuantity").value
-        );
-        const targetAmount = parseFloat(
-          document.getElementById("targetAmount").value
-        );
-
-        if (startTime >= endTime) {
-          alert("End time must be after start time");
-          return false;
-        }
-
-        if (minQuantity >= maxQuantity) {
-          alert("Maximum quantity must be greater than minimum quantity");
-          return false;
-        }
-
-        if (minQuantity < 1 || maxQuantity > 100) {
-          alert("Quantity must be between 1 and 100 liters");
-          return false;
-        }
-
-        if (targetAmount < 1000) {
-          alert("Target amount must be at least ₹1000");
-          return false;
-        }
-
-        return true;
-      }
-
-      function generateMultiPagePDF() {
-        if (!validateInputs()) {
-          return;
-        }
-
-        const month = document.getElementById("monthSelector").value;
-        const year = document.getElementById("yearSelector").value;
-        const targetAmount = parseFloat(
-          document.getElementById("targetAmount").value
-        );
-
-        // Create a temporary container
-        const container = document.createElement("div");
-        container.style.cssText = "padding: 20px;";
-
-        let currentTotal = 0;
-        let receipts = [];
-
-        // Generate receipts until target amount is reached or surpassed
-        while (currentTotal < targetAmount) {
-          const receipt = generateRandomReceipt(month, year);
-          receipts.push(receipt);
-          currentTotal += receipt.total;
-          container.innerHTML += receipt.html;
-        }
-
-        // Add container to body temporarily
-        document.body.appendChild(container);
-
-        // Generate PDF with all receipts
-        const opt = {
-          margin: 0.5,
-          filename: `cash-memos-${month}-${year}-${targetAmount}.pdf`,
-          image: { 
-            type: "jpeg", 
-            quality: 0.7,  // Reduced quality for mobile-like look
-          },
-          html2canvas: {
-            scale: 1.5,  // Slightly reduced scale for less crisp look
-            useCORS: true,
-            logging: false,
-            backgroundColor: null,  // Transparent background
-            filter: function(element) {
-              // Apply black and white filter
-              if (element.tagName === 'IMG' || element.tagName === 'DIV') {
-                element.style.filter = 'grayscale(100%) contrast(120%) brightness(90%)';
-              }
-              return true;
-            }
-          },
-          jsPDF: {
-            unit: "in",
-            format: "letter",
-            orientation: "portrait",
-          },
-          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-        };
-
-        html2pdf()
-          .set(opt)
-          .from(container)
-          .save()
-          .then(() => {
-            document.body.removeChild(container);
-            alert(
-              `Generated ${
-                receipts.length
-              } receipts\nTarget Amount: ₹${targetAmount.toFixed(
-                2
-              )}\nActual Total: ₹${currentTotal.toFixed(2)}`
-            );
-          });
-      }
-
-      // Make functions available globally
-      window.generateMultiPagePDF = generateMultiPagePDF;
-      window.downloadPDF = downloadPDF;
-    </script>
-  </body>
-</html>
+          station: "SREE KODANDRAMA SERVICE STATION",
+          day: String(Math.floor(Math.random() * 28) + 1).padStart(2, "0
