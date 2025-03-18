@@ -348,6 +348,19 @@
       option.selected = true;
       yearSelector.appendChild(option);
 
+      // Add 2024 option
+      const option2024 = document.createElement("option");
+      option2024.value = "2024";
+      option2024.text = "2024";
+      yearSelector.appendChild(option2024);
+
+      // Add 2025 option
+      const option2025 = document.createElement("option");
+      option2025.value = "2025";
+      option2025.text = "2025";
+      option2025.selected = true;  // Make 2025 the default selected year
+      yearSelector.appendChild(option2025);
+
       // Initialize the receipt preview with sample data
       document.addEventListener('DOMContentLoaded', function() {
         const sampleData = {
