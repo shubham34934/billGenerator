@@ -516,20 +516,22 @@
         // Use petrol price from constants based on month
         const rate = PETROL_PRICES[month];
 
-        // Generate a random day with gap between 5-8 days from the last generated day
+        // Get the number of days in the month
+        const daysInMonth = getDaysInMonth(month, year);
+        
+        // Generate a random day
         let day;
         if (lastGeneratedDay === null) {
-          // First receipt - random day between 1 and 5
-          day = Math.floor(Math.random() * 5) + 1;
+          // First receipt - random day between 1 and 3
+          day = Math.floor(Math.random() * 3) + 1;
         } else {
-          // Subsequent receipts - random gap between 5-8 days after the last one
-          const gap = Math.floor(Math.random() * 4) + 5; // Random number between 5-8
+          // Subsequent receipts - ensure minimum 5-day gap
+          const gap = Math.floor(Math.random() * 3) + 5; // Random number between 5-7 (minimum 5)
           day = lastGeneratedDay + gap;
           
-          // If we've exceeded the month's days, wrap to the next month
-          // For simplicity, we'll just reset to day 1
-          if (day > getDaysInMonth(month, year)) {
-            day = 1;
+          // If we've exceeded the month's days, don't wrap - just use the last day of the month
+          if (day > daysInMonth) {
+            day = daysInMonth;
           }
         }
         
