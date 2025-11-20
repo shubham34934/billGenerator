@@ -367,6 +367,25 @@
               <input type="number" id="bulkQuantityMax" value="40" min="1" step="1" style="width: 100%; padding: 5px" />
             </div>
 
+            <div style="margin-bottom: 15px">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Time Ranges (24-hour format):</label>
+              <div id="timeRangesContainer" style="border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #f9f9f9;">
+                <div class="time-range-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                  <input type="time" class="time-start" value="07:00" style="flex: 1; padding: 5px;" />
+                  <span>to</span>
+                  <input type="time" class="time-end" value="12:00" style="flex: 1; padding: 5px;" />
+                  <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+                </div>
+                <div class="time-range-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                  <input type="time" class="time-start" value="18:00" style="flex: 1; padding: 5px;" />
+                  <span>to</span>
+                  <input type="time" class="time-end" value="20:00" style="flex: 1; padding: 5px;" />
+                  <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+                </div>
+              </div>
+              <button type="button" id="addTimeRangeBtn" style="margin-top: 10px; padding: 5px 15px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 3px;">+ Add Time Range</button>
+            </div>
+
             <button
               id="generateBulkBtn"
               style="
@@ -905,6 +924,59 @@
         }
       }
 
+      // Time range management
+      function addTimeRangeRow() {
+        const container = document.getElementById("timeRangesContainer");
+        const row = document.createElement("div");
+        row.className = "time-range-row";
+        row.style.cssText = "display: flex; gap: 10px; margin-bottom: 10px; align-items: center;";
+        row.innerHTML = `
+          <input type="time" class="time-start" value="09:00" style="flex: 1; padding: 5px;" />
+          <span>to</span>
+          <input type="time" class="time-end" value="17:00" style="flex: 1; padding: 5px;" />
+          <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+        `;
+        container.appendChild(row);
+        attachRemoveHandler(row);
+      }
+
+      function attachRemoveHandler(row) {
+        const removeBtn = row.querySelector(".remove-time-range");
+        removeBtn.addEventListener("click", () => {
+          const container = document.getElementById("timeRangesContainer");
+          if (container.children.length > 1) {
+            row.remove();
+          } else {
+            alert("At least one time range is required.");
+          }
+        });
+      }
+
+      // Attach remove handlers to existing rows
+      document.querySelectorAll(".time-range-row").forEach(row => attachRemoveHandler(row));
+
+      // Add time range button handler
+      document.getElementById("addTimeRangeBtn").addEventListener("click", addTimeRangeRow);
+
+      function getTimeRanges() {
+        const ranges = [];
+        document.querySelectorAll(".time-range-row").forEach(row => {
+          const start = row.querySelector(".time-start").value;
+          const end = row.querySelector(".time-end").value;
+          if (start && end) {
+            const [startHour, startMin] = start.split(":").map(Number);
+            const [endHour, endMin] = end.split(":").map(Number);
+            ranges.push({
+              startHour,
+              startMin,
+              endHour,
+              endMin
+            });
+          }
+        });
+        return ranges;
+      }
+
       // Bulk generation handler
       document.getElementById("generateBulkBtn").addEventListener("click", async function() {
         const selectedTemplates = getSelectedBulkTemplates();
@@ -914,6 +986,7 @@
         const minGapDays = parseInt(document.getElementById("bulkMinGap").value);
         const quantityMin = parseFloat(document.getElementById("bulkQuantityMin").value);
         const quantityMax = parseFloat(document.getElementById("bulkQuantityMax").value);
+        const timeRanges = getTimeRanges();
 
         // Validation
         if (!month || !year || !targetAmount) {
@@ -957,6 +1030,14 @@
             },
           };
 
+          // Validate time ranges
+          if (timeRanges.length === 0) {
+            alert("Please add at least one time range.");
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+          }
+
           // Generate bulk bills
           const bulkResult = generateBulkBills({
             templateIds: selectedTemplates,
@@ -966,6 +1047,7 @@
             minGapDays,
             quantityRange: { min: quantityMin, max: quantityMax },
             customStations,
+            timeRanges,
           });
 
           // Open bills in new window

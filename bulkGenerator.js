@@ -60,18 +60,43 @@ function generateDatesWithGap(year, month, minGapDays = 4, maxDates = 10) {
 }
 
 /**
- * Generate random time within range
+ * Generate random time within specified time ranges
+ * @param {Array<{startHour: number, startMin: number, endHour: number, endMin: number}>} timeRanges - Array of time ranges
  */
-function generateRandomTime(startHour = 6, endHour = 22) {
-  const hour = randomIntBetween(startHour, endHour);
-  const minute = randomIntBetween(0, 59);
+function generateRandomTime(timeRanges = null) {
+  // Default range if no ranges provided
+  if (!timeRanges || timeRanges.length === 0) {
+    const hour = randomIntBetween(6, 22);
+    const minute = randomIntBetween(0, 59);
+    return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+  }
+
+  // Pick a random range
+  const range = timeRanges[randomIntBetween(0, timeRanges.length - 1)];
+  
+  // Convert to minutes for easier calculation
+  const startMinutes = range.startHour * 60 + range.startMin;
+  let endMinutes = range.endHour * 60 + range.endMin;
+  
+  // Handle case where end time is before start time (crosses midnight)
+  if (endMinutes <= startMinutes) {
+    endMinutes += 24 * 60; // Add 24 hours if crossing midnight
+  }
+  
+  // Generate random time within range
+  const totalMinutes = randomIntBetween(startMinutes, endMinutes);
+  const finalMinutes = totalMinutes % (24 * 60); // Wrap around if needed
+  
+  const hour = Math.floor(finalMinutes / 60);
+  const minute = finalMinutes % 60;
+  
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }
 
 /**
  * Generate random realistic data for template1
  */
-function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null) {
+function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, timeRanges = null) {
   const station = stationNames[randomIntBetween(0, stationNames.length - 1)];
   const address = customAddress !== null ? customAddress : "MADIWALA";
   const pincode = customPincode !== null ? customPincode : pincodes[randomIntBetween(0, pincodes.length - 1)];
@@ -86,7 +111,7 @@ function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRa
     pincode: String(pincode),
     mid: randomIntBetween(1, 10),
     date: formatDate(date.toISOString(), "dd/mm/yy"),
-    time: generateRandomTime(6, 22),
+    time: generateRandomTime(timeRanges),
     billNo: randomIntBetween(10000, 99999),
     quantity: quantity.toFixed(2),
     rate: rate.toFixed(2),
@@ -97,7 +122,7 @@ function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRa
 /**
  * Generate random realistic data for template2
  */
-function generateTemplate2Data(date, month, year, stationNames, addresses, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null) {
+function generateTemplate2Data(date, month, year, stationNames, addresses, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, timeRanges = null) {
   const stationIndex = randomIntBetween(0, stationNames.length - 1);
   const station = stationNames[stationIndex];
   const address = customAddress !== null ? customAddress : (addresses[stationIndex] || addresses[0]);
@@ -115,7 +140,7 @@ function generateTemplate2Data(date, month, year, stationNames, addresses, pinco
     address,
     pincode: String(pincode),
     date: formatDate(date.toISOString(), "dd-mm-yyyy"),
-    time: generateRandomTime(6, 22),
+    time: generateRandomTime(timeRanges),
     bayNo: randomIntBetween(1, 4),
     nozzleNo: randomIntBetween(1, 4),
     txnId: randomIntBetween(1000000, 9999999),
@@ -151,6 +176,7 @@ export function generateBulkBills(options) {
     startHour = 6,
     endHour = 22,
     customStations = {},
+    timeRanges = null,
   } = options;
 
   const templatePool = templateIds.length
@@ -270,7 +296,8 @@ export function generateBulkBills(options) {
         normalizedQuantityRange.min,
         normalizedQuantityRange.max,
         customAddress,
-        customPincode
+        customPincode,
+        timeRanges
       );
     } else if (selectedTemplateId === "template2") {
       const customAddress = customStations.template2?.address || null;
@@ -288,7 +315,8 @@ export function generateBulkBills(options) {
         normalizedQuantityRange.min,
         normalizedQuantityRange.max,
         customAddress,
-        customPincode
+        customPincode,
+        timeRanges
       );
     } else {
       continue;
