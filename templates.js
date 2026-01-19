@@ -9,6 +9,7 @@ export function generateTemplate1HTML(data) {
         <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
         <p>${data.address || 'MADIWALA'}</p>
         <p>BANGALORE-${data.pincode}</p>
+        ${data.gstNumber ? `<p>GST No: ${data.gstNumber}</p>` : ''}
       </div>
 
       <div class="details">
@@ -134,6 +135,10 @@ export function generateTemplate2HTML(data) {
           <span class="receipt-label">VAT TIN:2739000298 V</span>
           <span class="receipt-value"></span>
         </div>
+        ${data.gstNumber ? `<div class="receipt-row">
+          <span class="receipt-label">GST No:</span>
+          <span class="receipt-value">${data.gstNumber}</span>
+        </div>` : ''}
       </div>
 
       <div class="thank-you">

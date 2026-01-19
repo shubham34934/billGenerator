@@ -262,6 +262,28 @@
                       style="width: 100%; padding: 5px; font-size: 13px;"
                     />
                   </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1GstNumber" style="display: block; margin-bottom: 3px; font-size: 13px;">GST Number:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate1GstNumber"
+                      value=""
+                      placeholder="e.g., 29AABCU9603R1ZX"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1PetrolPrice" style="display: block; margin-bottom: 3px; font-size: 13px;">Petrol Price (₹/Ltr):</label>
+                    <input
+                      type="number"
+                      id="bulkTemplate1PetrolPrice"
+                      step="0.01"
+                      min="0"
+                      placeholder="Enter petrol price"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                    <small style="color: #666; font-size: 11px;">Leave empty to use default price for selected month</small>
+                  </div>
                 </div>
                 <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
                   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
@@ -307,6 +329,28 @@
                       placeholder="Enter pincode"
                       style="width: 100%; padding: 5px; font-size: 13px;"
                     />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2GstNumber" style="display: block; margin-bottom: 3px; font-size: 13px;">GST Number:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate2GstNumber"
+                      value=""
+                      placeholder="e.g., 29AABCU9603R1ZX"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2PetrolPrice" style="display: block; margin-bottom: 3px; font-size: 13px;">Petrol Price (₹/Ltr):</label>
+                    <input
+                      type="number"
+                      id="bulkTemplate2PetrolPrice"
+                      step="0.01"
+                      min="0"
+                      placeholder="Enter petrol price"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                    <small style="color: #666; font-size: 11px;">Leave empty to use default price for selected month</small>
                   </div>
                 </div>
               </div>
@@ -461,6 +505,17 @@
         </div>
 
         <div style="margin-bottom: 15px">
+              <label for="t1_gstNumber">GST Number:</label>
+              <input
+                type="text"
+                id="t1_gstNumber"
+                value=""
+                placeholder="e.g., 29AABCU9603R1ZX"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+        </div>
+
+        <div style="margin-bottom: 15px">
               <label for="t1_mid">MID:</label>
           <input
             type="number"
@@ -580,6 +635,17 @@
                 type="text"
                 id="t2_pincode"
                 value="560114"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+          </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t2_gstNumber">GST Number:</label>
+              <input
+                type="text"
+                id="t2_gstNumber"
+                value=""
+                placeholder="e.g., 29AABCU9603R1ZX"
                 style="width: 100%; padding: 5px; margin-top: 5px"
               />
           </div>
@@ -742,36 +808,48 @@
           const stationField = document.getElementById("bulkTemplate1Station");
           const addressField = document.getElementById("bulkTemplate1Address");
           const pincodeField = document.getElementById("bulkTemplate1Pincode");
+          const gstNumberField = document.getElementById("bulkTemplate1GstNumber");
+          const petrolPriceField = document.getElementById("bulkTemplate1PetrolPrice");
+          const sampleRate = petrolPriceField?.value ? parseFloat(petrolPriceField.value).toFixed(2) : "101.50";
+          const sampleQuantity = "34.50";
+          const sampleTotal = (parseFloat(sampleQuantity) * parseFloat(sampleRate)).toFixed(2);
         return {
             station: stationField ? stationField.value || "VENKATESWARA AND CO" : "VENKATESWARA AND CO",
             address: addressField ? addressField.value || "MADIWALA" : "MADIWALA",
             pincode: pincodeField ? pincodeField.value || "560068" : "560068",
+            gstNumber: gstNumberField ? gstNumberField.value || "" : "",
             mid: 3,
             date: "05/03/24",
             time: "10:15",
             billNo: 34567,
-            quantity: "34.50",
-            rate: "101.50",
-            total: "3501.75",
+            quantity: sampleQuantity,
+            rate: sampleRate,
+            total: sampleTotal,
           };
         }
         if (templateId === "template2") {
           const stationField = document.getElementById("bulkTemplate2Station");
           const addressField = document.getElementById("bulkTemplate2Address");
           const pincodeField = document.getElementById("bulkTemplate2Pincode");
+          const gstNumberField = document.getElementById("bulkTemplate2GstNumber");
+          const petrolPriceField = document.getElementById("bulkTemplate2PetrolPrice");
+          const sampleRate = petrolPriceField?.value ? parseFloat(petrolPriceField.value).toFixed(2) : "99.80";
+          const sampleQuantity = "36.80";
+          const sampleTotal = (parseFloat(sampleQuantity) * parseFloat(sampleRate)).toFixed(2);
           return {
             station: stationField ? stationField.value || "GURUKRUPA SERVICE STATION" : "GURUKRUPA SERVICE STATION",
             address: addressField ? addressField.value || "HOSUR ROAD, SINGASANDARA" : "HOSUR ROAD, SINGASANDARA",
             pincode: pincodeField ? pincodeField.value || "560114" : "560114",
+            gstNumber: gstNumberField ? gstNumberField.value || "" : "",
             date: "05-03-2024",
             time: "11:25",
             bayNo: 2,
             nozzleNo: 3,
             txnId: 6853434,
-            quantity: "36.80",
-            rate: "99.80",
-            total: "3673.64",
-            presetValue: "3520.00",
+            quantity: sampleQuantity,
+            rate: sampleRate,
+            total: sampleTotal,
+            presetValue: (parseFloat(sampleTotal) * 0.96).toFixed(2),
           };
         }
         return null;
@@ -825,14 +903,18 @@
         });
       });
 
-      // Update preview when station/address fields change
+      // Update preview when station/address/petrol price fields change
       const stationFields = [
         "bulkTemplate1Station",
         "bulkTemplate1Address",
         "bulkTemplate1Pincode",
+        "bulkTemplate1GstNumber",
+        "bulkTemplate1PetrolPrice",
         "bulkTemplate2Station",
         "bulkTemplate2Address",
         "bulkTemplate2Pincode",
+        "bulkTemplate2GstNumber",
+        "bulkTemplate2PetrolPrice",
       ];
 
       stationFields.forEach((fieldId) => {
@@ -1016,17 +1098,24 @@
           btn.textContent = "Generating...";
           btn.disabled = true;
 
-          // Get custom station names and addresses
+          // Get custom station names, addresses, and petrol prices
+          const template1PetrolPrice = document.getElementById("bulkTemplate1PetrolPrice").value;
+          const template2PetrolPrice = document.getElementById("bulkTemplate2PetrolPrice").value;
+          
           const customStations = {
             template1: {
               station: document.getElementById("bulkTemplate1Station").value || "VENKATESWARA AND CO",
               address: document.getElementById("bulkTemplate1Address").value || "MADIWALA",
               pincode: document.getElementById("bulkTemplate1Pincode").value || "560068",
+              gstNumber: document.getElementById("bulkTemplate1GstNumber").value || "",
+              petrolPrice: template1PetrolPrice ? parseFloat(template1PetrolPrice) : null,
             },
             template2: {
               station: document.getElementById("bulkTemplate2Station").value || "GURUKRUPA SERVICE STATION",
               address: document.getElementById("bulkTemplate2Address").value || "HOSUR ROAD, SINGASANDARA",
               pincode: document.getElementById("bulkTemplate2Pincode").value || "560114",
+              gstNumber: document.getElementById("bulkTemplate2GstNumber").value || "",
+              petrolPrice: template2PetrolPrice ? parseFloat(template2PetrolPrice) : null,
             },
           };
 

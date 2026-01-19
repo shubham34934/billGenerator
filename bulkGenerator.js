@@ -96,12 +96,12 @@ function generateRandomTime(timeRanges = null) {
 /**
  * Generate random realistic data for template1
  */
-function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, timeRanges = null) {
+function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, customGstNumber = null, timeRanges = null) {
   const station = stationNames[randomIntBetween(0, stationNames.length - 1)];
   const address = customAddress !== null ? customAddress : "MADIWALA";
   const pincode = customPincode !== null ? customPincode : pincodes[randomIntBetween(0, pincodes.length - 1)];
-  // Small variation in rate (±2 rupees)
-  const rate = parseFloat((baseRate + randomBetween(-2, 2)).toFixed(2));
+  // Use exact base rate (no random variation)
+  const rate = parseFloat(baseRate.toFixed(2));
   const quantity = parseFloat(randomBetween(quantityMin, quantityMax).toFixed(2));
   const total = calculateTotal(quantity, rate);
   
@@ -109,6 +109,7 @@ function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRa
     station,
     address,
     pincode: String(pincode),
+    gstNumber: customGstNumber !== null ? customGstNumber : "",
     mid: randomIntBetween(1, 10),
     date: formatDate(date.toISOString(), "dd/mm/yy"),
     time: generateRandomTime(timeRanges),
@@ -122,13 +123,13 @@ function generateTemplate1Data(date, month, year, stationNames, pincodes, baseRa
 /**
  * Generate random realistic data for template2
  */
-function generateTemplate2Data(date, month, year, stationNames, addresses, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, timeRanges = null) {
+function generateTemplate2Data(date, month, year, stationNames, addresses, pincodes, baseRate, quantityMin, quantityMax, customAddress = null, customPincode = null, customGstNumber = null, timeRanges = null) {
   const stationIndex = randomIntBetween(0, stationNames.length - 1);
   const station = stationNames[stationIndex];
   const address = customAddress !== null ? customAddress : (addresses[stationIndex] || addresses[0]);
   const pincode = customPincode !== null ? customPincode : pincodes[randomIntBetween(0, pincodes.length - 1)];
-  // Small variation in rate (±2 rupees)
-  const rate = parseFloat((baseRate + randomBetween(-2, 2)).toFixed(2));
+  // Use exact base rate (no random variation)
+  const rate = parseFloat(baseRate.toFixed(2));
   const quantity = parseFloat(randomBetween(quantityMin, quantityMax).toFixed(2));
   const total = calculateTotal(quantity, rate);
   
@@ -139,6 +140,7 @@ function generateTemplate2Data(date, month, year, stationNames, addresses, pinco
     station,
     address,
     pincode: String(pincode),
+    gstNumber: customGstNumber !== null ? customGstNumber : "",
     date: formatDate(date.toISOString(), "dd-mm-yyyy"),
     time: generateRandomTime(timeRanges),
     bayNo: randomIntBetween(1, 4),
@@ -240,9 +242,13 @@ export function generateBulkBills(options) {
     ]);
   }
 
-  // Get petrol rates for the month
+  // Get petrol rates for the month (use custom prices if provided, otherwise use defaults)
   const monthKey = String(month).padStart(2, "0");
-  const baseRate = PETROL_PRICES[monthKey] || 102.0;
+  const defaultBaseRate = PETROL_PRICES[monthKey] || 102.0;
+  
+  // Get custom petrol prices per template
+  const template1BaseRate = customStations.template1?.petrolPrice ?? defaultBaseRate;
+  const template2BaseRate = customStations.template2?.petrolPrice ?? defaultBaseRate;
 
   // Generate dates with gap constraint
   const estimatedMaxBills = Math.max(
@@ -286,17 +292,19 @@ export function generateBulkBills(options) {
       const customPincode = customStations.template1?.pincode 
         ? parseInt(customStations.template1.pincode) 
         : null;
+      const customGstNumber = customStations.template1?.gstNumber || null;
       billData = generateTemplate1Data(
         selectedDate,
         month,
         year,
         stations.template1,
         pincodes,
-        baseRate,
+        template1BaseRate,
         normalizedQuantityRange.min,
         normalizedQuantityRange.max,
         customAddress,
         customPincode,
+        customGstNumber,
         timeRanges
       );
     } else if (selectedTemplateId === "template2") {
@@ -304,6 +312,7 @@ export function generateBulkBills(options) {
       const customPincode = customStations.template2?.pincode 
         ? parseInt(customStations.template2.pincode) 
         : null;
+      const customGstNumber = customStations.template2?.gstNumber || null;
       billData = generateTemplate2Data(
         selectedDate,
         month,
@@ -311,11 +320,12 @@ export function generateBulkBills(options) {
         stations.template2,
         addresses,
         pincodes,
-        baseRate,
+        template2BaseRate,
         normalizedQuantityRange.min,
         normalizedQuantityRange.max,
         customAddress,
         customPincode,
+        customGstNumber,
         timeRanges
       );
     } else {
