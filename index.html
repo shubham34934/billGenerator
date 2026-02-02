@@ -175,11 +175,202 @@
           border-radius: 5px;
         "
       >
-        <h3>Generate Multiple Receipts</h3>
+        <h3>Generate Cash Memo</h3>
+
+        <!-- Mode Toggle -->
+        <div style="margin-bottom: 20px">
+          <label style="font-weight: bold; display: block; margin-bottom: 10px">Mode:</label>
+          <div>
+            <input type="radio" id="modeSingle" name="generationMode" value="single" checked style="margin-right: 5px">
+            <label for="modeSingle" style="margin-right: 20px">Single Bill</label>
+            <input type="radio" id="modeBulk" name="generationMode" value="bulk" style="margin-right: 5px">
+            <label for="modeBulk">Bulk Generation</label>
+          </div>
+        </div>
+
+        <!-- Single Bill Section -->
+        <div id="singleBillSection">
+          <div style="margin-bottom: 20px">
+            <label
+              for="memoTypeSelector"
+              style="font-weight: bold; display: block; margin-bottom: 10px"
+              >Select Memo Type:</label
+            >
+            <select
+              id="memoTypeSelector"
+              style="padding: 8px; font-size: 16px; width: 300px"
+            >
+              <option value="">-- Choose Memo Type --</option>
+              <option value="template1">Template 1 - Venkateswara And Co</option>
+              <option value="template2">
+                Template 2 - Gurukrupa Service Station
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bulk Generation Section -->
+        <div id="bulkGenerationSection" style="display: none;">
+          <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+            <h4 style="text-align: center; margin-bottom: 15px">Bulk Generation Settings</h4>
 
         <div style="margin-bottom: 15px">
-          <label for="monthSelector">Select Month:</label>
-          <select id="monthSelector" style="margin-left: 10px">
+              <label style="display: block; margin-bottom: 5px">Template Types:</label>
+              <div id="bulkTemplateOptions">
+                <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" name="bulkTemplate" value="template1" checked />
+                      Template 1 - Venkateswara And Co
+                    </label>
+                    <button
+                      type="button"
+                      class="bulk-template-preview-btn"
+                      data-template="template1"
+                      style="padding: 4px 10px; font-size: 12px;"
+                    >
+                      Preview
+                    </button>
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1Station" style="display: block; margin-bottom: 3px; font-size: 13px;">Station Name:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate1Station"
+                      value="VENKATESWARA AND CO"
+                      placeholder="Enter station name"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1Address" style="display: block; margin-bottom: 3px; font-size: 13px;">Address:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate1Address"
+                      value="MADIWALA"
+                      placeholder="Enter address"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1Pincode" style="display: block; margin-bottom: 3px; font-size: 13px;">Pincode:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate1Pincode"
+                      value="560068"
+                      placeholder="Enter pincode"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1GstNumber" style="display: block; margin-bottom: 3px; font-size: 13px;">GST Number:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate1GstNumber"
+                      value=""
+                      placeholder="e.g., 29AABCU9603R1ZX"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate1PetrolPrice" style="display: block; margin-bottom: 3px; font-size: 13px;">Petrol Price (₹/Ltr):</label>
+                    <input
+                      type="number"
+                      id="bulkTemplate1PetrolPrice"
+                      step="0.01"
+                      min="0"
+                      placeholder="Enter petrol price"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                    <small style="color: #666; font-size: 11px;">Leave empty to use default price for selected month</small>
+                  </div>
+                </div>
+                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" name="bulkTemplate" value="template2" checked />
+                      Template 2 - Gurukrupa Service Station
+                    </label>
+                    <button
+                      type="button"
+                      class="bulk-template-preview-btn"
+                      data-template="template2"
+                      style="padding: 4px 10px; font-size: 12px;"
+                    >
+                      Preview
+                    </button>
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2Station" style="display: block; margin-bottom: 3px; font-size: 13px;">Station Name:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate2Station"
+                      value="GURUKRUPA SERVICE STATION"
+                      placeholder="Enter station name"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2Address" style="display: block; margin-bottom: 3px; font-size: 13px;">Address:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate2Address"
+                      value="HOSUR ROAD, SINGASANDARA"
+                      placeholder="Enter address"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2Pincode" style="display: block; margin-bottom: 3px; font-size: 13px;">Pincode:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate2Pincode"
+                      value="560114"
+                      placeholder="Enter pincode"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2GstNumber" style="display: block; margin-bottom: 3px; font-size: 13px;">GST Number:</label>
+                    <input
+                      type="text"
+                      id="bulkTemplate2GstNumber"
+                      value=""
+                      placeholder="e.g., 29AABCU9603R1ZX"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                  </div>
+                  <div style="margin-top: 8px;">
+                    <label for="bulkTemplate2PetrolPrice" style="display: block; margin-bottom: 3px; font-size: 13px;">Petrol Price (₹/Ltr):</label>
+                    <input
+                      type="number"
+                      id="bulkTemplate2PetrolPrice"
+                      step="0.01"
+                      min="0"
+                      placeholder="Enter petrol price"
+                      style="width: 100%; padding: 5px; font-size: 13px;"
+                    />
+                    <small style="color: #666; font-size: 11px;">Leave empty to use default price for selected month</small>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="bulkTemplatePreview"
+                style="
+                  display: none;
+                  margin-top: 10px;
+                  padding: 10px;
+                  border: 1px dashed #aaa;
+                "
+              >
+                <p style="text-align: center; font-style: italic; margin-top: 0;">Template Preview</p>
+                <div id="bulkTemplatePreviewContent"></div>
+              </div>
+            </div>
+
+        <div style="margin-bottom: 15px">
+              <label for="bulkMonth" style="display: block; margin-bottom: 5px">Month:</label>
+              <select id="bulkMonth" style="width: 100%; padding: 5px">
             <option value="01">January</option>
             <option value="02">February</option>
             <option value="03">March</option>
@@ -193,567 +384,804 @@
             <option value="11">November</option>
             <option value="12">December</option>
           </select>
+            </div>
 
-          <label for="yearSelector" style="margin-left: 20px">Year:</label>
-          <select id="yearSelector" style="margin-left: 10px"></select>
+            <div style="margin-bottom: 15px">
+              <label for="bulkYear" style="display: block; margin-bottom: 5px">Year:</label>
+              <input type="number" id="bulkYear" value="2024" min="2020" max="2030" style="width: 100%; padding: 5px" />
         </div>
 
         <div style="margin-bottom: 15px">
-          <label>Time Range:</label><br />
-          <label for="startTime" style="margin-right: 10px">Start Time:</label>
-          <input
-            type="time"
-            id="startTime"
-            value="09:00"
-            style="margin-right: 20px"
-          />
+              <label for="bulkTargetAmount" style="display: block; margin-bottom: 5px">Target Amount (₹):</label>
+              <input type="number" id="bulkTargetAmount" value="20000" min="1000" step="100" style="width: 100%; padding: 5px" />
+            </div>
 
-          <label for="endTime" style="margin-right: 10px">End Time:</label>
-          <input type="time" id="endTime" value="17:00" />
+            <div style="margin-bottom: 15px">
+              <label for="bulkMinGap" style="display: block; margin-bottom: 5px">Minimum Gap Between Bills (Days):</label>
+              <input type="number" id="bulkMinGap" value="4" min="1" max="10" style="width: 100%; padding: 5px" />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="bulkQuantityMin" style="display: block; margin-bottom: 5px">Min Quantity (Liters):</label>
+              <input type="number" id="bulkQuantityMin" value="30" min="1" step="1" style="width: 100%; padding: 5px" />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="bulkQuantityMax" style="display: block; margin-bottom: 5px">Max Quantity (Liters):</label>
+              <input type="number" id="bulkQuantityMax" value="40" min="1" step="1" style="width: 100%; padding: 5px" />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Time Ranges (24-hour format):</label>
+              <div id="timeRangesContainer" style="border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #f9f9f9;">
+                <div class="time-range-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                  <input type="time" class="time-start" value="07:00" style="flex: 1; padding: 5px;" />
+                  <span>to</span>
+                  <input type="time" class="time-end" value="12:00" style="flex: 1; padding: 5px;" />
+                  <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+                </div>
+                <div class="time-range-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                  <input type="time" class="time-start" value="18:00" style="flex: 1; padding: 5px;" />
+                  <span>to</span>
+                  <input type="time" class="time-end" value="20:00" style="flex: 1; padding: 5px;" />
+                  <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+                </div>
+              </div>
+              <button type="button" id="addTimeRangeBtn" style="margin-top: 10px; padding: 5px 15px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 3px;">+ Add Time Range</button>
+            </div>
+
+            <button
+              id="generateBulkBtn"
+              style="
+                padding: 10px 20px;
+                width: 100%;
+                background-color: #2c2c2c;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+              "
+            >
+              View Bulk Bills
+            </button>
+          </div>
         </div>
 
-        <div style="margin-bottom: 15px">
-          <label>Petrol Quantity Range (Liters):</label><br />
-          <label for="minQuantity" style="margin-right: 10px"
-            >Min Quantity:</label
+        <div
+          id="formAndPreviewContainer"
+          style="
+            display: none;
+            flex-direction: row;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            width: 100%;
+          "
+        >
+          <div
+            id="template1Form"
+            style="
+              display: none;
+              text-align: left;
+              max-width: 500px;
+              min-width: 400px;
+              flex: 0 0 auto;
+            "
           >
+            <h4 style="text-align: center; margin-bottom: 15px">
+              Fill Details for Template 1
+            </h4>
+
+        <div style="margin-bottom: 15px">
+              <label for="t1_station">Station Name:</label>
+          <input
+                type="text"
+                id="t1_station"
+                value="VENKATESWARA AND CO"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t1_address">Address:</label>
+              <input
+                type="text"
+                id="t1_address"
+                value="MADIWALA"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+        </div>
+
+        <div style="margin-bottom: 15px">
+              <label for="t1_pincode">Pincode:</label>
+              <input
+                type="text"
+                id="t1_pincode"
+                value="560068"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+        </div>
+
+        <div style="margin-bottom: 15px">
+              <label for="t1_gstNumber">GST Number:</label>
+              <input
+                type="text"
+                id="t1_gstNumber"
+                value=""
+                placeholder="e.g., 29AABCU9603R1ZX"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+        </div>
+
+        <div style="margin-bottom: 15px">
+              <label for="t1_mid">MID:</label>
           <input
             type="number"
-            id="minQuantity"
-            value="30"
+                id="t1_mid"
+                value="3"
             min="1"
-            max="35"
-            step="1"
-            style="margin-right: 20px"
-          />
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
 
-          <label for="maxQuantity" style="margin-right: 10px"
-            >Max Quantity:</label
-          >
+            <div style="margin-bottom: 15px">
+              <label for="t1_date">Date:</label>
+              <input
+                type="date"
+                id="t1_date"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t1_time">Time:</label>
+              <input
+                type="time"
+                id="t1_time"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t1_billNo">Bill No:</label>
           <input
             type="number"
-            id="maxQuantity"
+                id="t1_billNo"
+                value="98873"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t1_quantity">Quantity (Liters):</label>
+              <input
+                type="number"
+                id="t1_quantity"
             value="35"
-            min="30"
-            max="35"
-            step="1"
+                min="1"
+                step="0.01"
+                style="width: 100%; padding: 5px; margin-top: 5px"
           />
         </div>
 
         <div style="margin-bottom: 15px">
-          <label>Total Amount to Generate (₹):</label><br />
+              <label for="t1_rate">Rate per Liter:</label>
           <input
             type="number"
-            id="targetAmount"
-            value="20000"
-            min="1000"
-            step="100"
-            style="margin-right: 20px"
+                id="t1_rate"
+                value="101.35"
+                min="0"
+                step="0.01"
+                style="width: 100%; padding: 5px; margin-top: 5px"
           />
         </div>
 
-        <button id="generatePdfBtn" style="padding: 10px 20px">
-          Generate Receipts PDF
+            <button
+              id="generateTemplate1Btn"
+              style="
+                padding: 10px 20px;
+                width: 100%;
+                background-color: #2c2c2c;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+              "
+            >
+              Generate PDF
         </button>
       </div>
+
+          <div
+            id="template2Form"
+            style="
+              display: none;
+              text-align: left;
+              max-width: 500px;
+              min-width: 400px;
+              flex: 0 0 auto;
+            "
+          >
+            <h4 style="text-align: center; margin-bottom: 15px">
+              Fill Details for Template 2
+            </h4>
+
+            <div style="margin-bottom: 15px">
+              <label for="t2_station">Station Name:</label>
+              <input
+                type="text"
+                id="t2_station"
+                value="GURUKRUPA SERVICE STATION"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
     </div>
 
-    <div id="receiptsContainer">
-      <div id="receipt1" class="memo">
-        <div class="header">
-          <h2>CASH MEMO</h2>
-          <h3>VENKATESWARA AND CO</h3>
-          <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
-          <p>MADIWALA</p>
-          <p>BANGALORE-560068</p>
+            <div style="margin-bottom: 15px">
+              <label for="t2_address">Address:</label>
+              <input
+                type="text"
+                id="t2_address"
+                value="HOSUR ROAD, SINGASANDARA"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="details">
-          <div style="display: flex; justify-content: space-between">
-            <p>MID: 3</p>
-            <p>DATE: 06/05/24</p>
+            <div style="margin-bottom: 15px">
+              <label for="t2_pincode">Pincode:</label>
+              <input
+                type="text"
+                id="t2_pincode"
+                value="560114"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
           </div>
-          <div style="display: flex; justify-content: space-between">
-            <p>BILL NO: 98873</p>
-            <p>TIME: 11:54</p>
+
+            <div style="margin-bottom: 15px">
+              <label for="t2_gstNumber">GST Number:</label>
+              <input
+                type="text"
+                id="t2_gstNumber"
+                value=""
+                placeholder="e.g., 29AABCU9603R1ZX"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
           </div>
-          <p>NAME:</p>
+
+            <div style="margin-bottom: 15px">
+              <label for="t2_date">Date:</label>
+              <input
+                type="date"
+                id="t2_date"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+          </div>
+
+            <div style="margin-bottom: 15px">
+              <label for="t2_time">Time:</label>
+              <input
+                type="time"
+                id="t2_time"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="separator"></div>
+            <div style="margin-bottom: 15px">
+              <label for="t2_bayNo">Bay No:</label>
+              <input
+                type="number"
+                id="t2_bayNo"
+                value="1"
+                min="1"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
+            </div>
 
-        <div style="display: flex; justify-content: space-between">
-          <span>ITEM NAME</span>
-          <span>QTY</span>
-          <span>PRICE</span>
-          <span>AMOUNT</span>
+            <div style="margin-bottom: 15px">
+              <label for="t2_nozzleNo">Nozzle No:</label>
+              <input
+                type="number"
+                id="t2_nozzleNo"
+                value="2"
+                min="1"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="separator"></div>
-
-        <div style="display: flex; justify-content: space-between">
-          <span>M.S.ULP</span>
-          <span>35.00Lt</span>
-          <span>101.35</span>
-          <span>3547.25</span>
+            <div style="margin-bottom: 15px">
+              <label for="t2_txnId">Transaction ID:</label>
+              <input
+                type="number"
+                id="t2_txnId"
+                value="6853434"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="separator"></div>
-
-        <div style="display: flex; justify-content: space-between">
-          <span>TOTAL ITEM(S):1 /QTY:35.00</span>
-          <span>3547.25</span>
+            <div style="margin-bottom: 15px">
+              <label for="t2_quantity">Quantity (Liters):</label>
+              <input
+                type="number"
+                id="t2_quantity"
+                value="37"
+                min="1"
+                step="0.01"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="separator"></div>
-
-        <div class="total">
-          <p>TOTAL: ₹ 3547.25</p>
+            <div style="margin-bottom: 15px">
+              <label for="t2_rate">Rate per Liter:</label>
+              <input
+                type="number"
+                id="t2_rate"
+                value="99.84"
+                min="0"
+                step="0.01"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
         </div>
 
-        <div class="separator"></div>
+            <div style="margin-bottom: 15px">
+              <label for="t2_presetValue">Preset Value:</label>
+              <input
+                type="text"
+                id="t2_presetValue"
+                value="3680.45"
+                style="width: 100%; padding: 5px; margin-top: 5px"
+              />
       </div>
-      <div class="download-btn"></div>
 
-      <!-- <button class="download-btn" onclick="window.downloadPDF('receipt1')">
-        Download Venkateswara Cash Memo as PDF
-      </button> -->
-
-      <div id="receipt2" class="memo">
-        <img src="image.png" alt="Bharat Petroleum Logo" class="bp-logo" />
-        <div class="header">
-          <h2 style="margin: 5px 0">CASH MEMO</h2>
-          <h3 style="margin: 5px 0">GURUKRUPA SERVICE STATION</h3>
-          <p style="margin: 5px 0">HOSUR ROAD, SINGASANDARA</p>
-          <p style="margin: 5px 0">BANGALORE 560114</p>
+            <button
+              id="generateTemplate2Btn"
+              style="
+                padding: 10px 20px;
+                width: 100%;
+                background-color: #2c2c2c;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+              "
+            >
+              Generate PDF
+            </button>
         </div>
 
-        <div class="details">
-          <div class="receipt-row">
-            <span class="receipt-label">Date:</span>
-            <span class="receipt-value">20-06-2024</span>
+          <div
+            id="previewContainer"
+            style="
+              flex: 0 0 400px;
+              max-width: 400px;
+              min-width: 350px;
+              position: sticky;
+              top: 20px;
+            "
+          >
+            <h4 style="text-align: center; margin-bottom: 15px">Preview</h4>
+            <div id="memoPreview"></div>
           </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Time:</span>
-            <span class="receipt-value">08:57</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">BayNo:</span>
-            <span class="receipt-value">1</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">NozzleNo:</span>
-            <span class="receipt-value">2</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Product:</span>
-            <span class="receipt-value">PETROL</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">PayMode:</span>
-            <span class="receipt-value">Cash</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Txn Id:</span>
-            <span class="receipt-value">6853434</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Attendant:</span>
-            <span class="receipt-value"></span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">TxSt:</span>
-            <span class="receipt-value">20-06-2024 02:17</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">TxEnd:</span>
-            <span class="receipt-value">20-06-2024 02:17</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Rate/Ltr:</span>
-            <span class="receipt-value">99.84</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Volume(Ltr.):</span>
-            <span class="receipt-value">37.00</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Amount (Rs.):</span>
-            <span class="receipt-value">3694.08</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">PresetType:</span>
-            <span class="receipt-value">Local Amount</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">Preset Value:</span>
-            <span class="receipt-value">3680.45</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">VechNo:</span>
-            <span class="receipt-value"></span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">MobileNo:</span>
-            <span class="receipt-value">+91</span>
-          </div>
-          <div class="receipt-row">
-            <span class="receipt-label">VAT TIN:2739000298 V</span>
-            <span class="receipt-value"></span>
           </div>
         </div>
 
-        <div class="thank-you">
-          <p>THANK YOU !! VISIT AGAIN !!!</p>
-        </div>
-      </div>
-      <div class="download-btn"></div>
-      <!-- <button class="download-btn" onclick="window.downloadPDF('receipt2')">
-        Download Gurukrupa Cash Memo as PDF
-      </button> -->
+    <div id="receiptsContainer" style="display: none">
+      <!-- Sample receipts hidden - not used in new flow -->
     </div>
 
     <script type="module">
-      import { PETROL_PRICES } from "./constants.js";
+      import { TemplateManager } from "./templateManager.js";
+      import { generatePDF } from "./pdfGenerator.js";
+      import { TEMPLATE_CONFIG } from "./config.js";
+      import { generateBulkBills, generateBulkPDF } from "./bulkGenerator.js";
+      import { generateTemplate1HTML, generateTemplate2HTML } from "./templates.js";
 
-      // Populate year dropdown with current year
-      const currentYear = new Date().getFullYear() - 1;
-      const yearSelector = document.getElementById("yearSelector");
-      const option = document.createElement("option");
-      option.value = currentYear;
-      option.text = currentYear;
-      option.selected = true;
-      yearSelector.appendChild(option);
+      // Initialize DOM references
+      const memoTypeSelector = document.getElementById("memoTypeSelector");
+      const template1Form = document.getElementById("template1Form");
+      const template2Form = document.getElementById("template2Form");
+      const formAndPreviewContainer = document.getElementById("formAndPreviewContainer");
+      const memoPreview = document.getElementById("memoPreview");
+      const singleBillSection = document.getElementById("singleBillSection");
+      const bulkGenerationSection = document.getElementById("bulkGenerationSection");
+      const modeSingle = document.getElementById("modeSingle");
+      const modeBulk = document.getElementById("modeBulk");
+      const bulkTemplatePreview = document.getElementById("bulkTemplatePreview");
+      const bulkTemplatePreviewContent = document.getElementById("bulkTemplatePreviewContent");
+      const bulkTemplateCheckboxes = document.querySelectorAll('input[name="bulkTemplate"]');
+      const bulkPreviewButtons = document.querySelectorAll(".bulk-template-preview-btn");
+      
+      // Initialize template manager
+      const templateManager = new TemplateManager(memoPreview);
+      let currentTemplateId = null;
 
-      // Add click handler for the generate button
-      document
-        .getElementById("generatePdfBtn")
-        .addEventListener("click", generateMultiPagePDF);
+      function getSelectedBulkTemplates() {
+        return Array.from(
+          document.querySelectorAll('input[name="bulkTemplate"]:checked')
+        ).map((el) => el.value);
+      }
 
-      function getRandomTime(startTime, endTime) {
-        const start = new Date(`2000-01-01 ${startTime}`);
-        const end = new Date(`2000-01-01 ${endTime}`);
-        const randomTime = new Date(
-          start.getTime() + Math.random() * (end.getTime() - start.getTime())
-        );
+      function getSampleDataForTemplate(templateId) {
+        if (templateId === "template1") {
+          const stationField = document.getElementById("bulkTemplate1Station");
+          const addressField = document.getElementById("bulkTemplate1Address");
+          const pincodeField = document.getElementById("bulkTemplate1Pincode");
+          const gstNumberField = document.getElementById("bulkTemplate1GstNumber");
+          const petrolPriceField = document.getElementById("bulkTemplate1PetrolPrice");
+          const sampleRate = petrolPriceField?.value ? parseFloat(petrolPriceField.value).toFixed(2) : "101.50";
+          const sampleQuantity = "34.50";
+          const sampleTotal = (parseFloat(sampleQuantity) * parseFloat(sampleRate)).toFixed(2);
         return {
-          hours: String(randomTime.getHours()).padStart(2, "0"),
-          minutes: String(randomTime.getMinutes()).padStart(2, "0"),
-        };
-      }
-
-      function generateTemplate1(data) {
-        return `
-          <div class="memo" style="margin-bottom: 30px;">
-            <div class="header">
-              <h2>CASH MEMO</h2>
-              <h3>${data.station}</h3>
-              <p>DEALERS-BHARAT PETROLEUM CORP. LTD</p>
-              <p>MADIWALA</p>
-              <p>BANGALORE-${data.pincode}</p>
-            </div>
-
-            <div class="details">
-              <div style="display: flex; justify-content: space-between">
-                <p>MID: ${data.mid}</p>
-                <p>DATE: ${data.day}/${data.month}/${data.year}</p>
-              </div>
-              <div style="display: flex; justify-content: space-between">
-                <p>BILL NO: ${data.billNo}</p>
-                <p>TIME: ${data.hours}:${data.minutes}</p>
-              </div>
-              <p>NAME:</p>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>ITEM NAME</span>
-              <span>QTY</span>
-              <span>PRICE</span>
-              <span>AMOUNT</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>M.S.ULP</span>
-              <span>${data.quantity}Lt</span>
-              <span>${data.rate}</span>
-              <span>${data.total}</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div style="display: flex; justify-content: space-between">
-              <span>TOTAL ITEM(S):1 /QTY:${data.quantity}</span>
-              <span>${data.total}</span>
-            </div>
-
-            <div class="separator"></div>
-
-            <div class="total">
-              <p>TOTAL: ₹ ${data.total}</p>
-            </div>
-
-            <div class="separator"></div>
-          </div>`;
-      }
-
-      function generateTemplate2(data) {
-        return `
-          <div class="memo" style="margin-bottom: 30px;">
-            <img src="image.png" alt="Bharat Petroleum Logo" class="bp-logo" />
-            <div class="header">
-              <h2 style="margin: 5px 0">CASH MEMO</h2>
-              <h3 style="margin: 5px 0">${data.station}</h3>
-              <p style="margin: 5px 0">HOSUR ROAD, SINGASANDARA</p>
-              <p style="margin: 5px 0">BANGALORE ${data.pincode}</p>
-            </div>
-
-            <div class="details">
-              <div class="receipt-row">
-                <span class="receipt-label">Date:</span>
-                <span class="receipt-value">${data.day}-${data.month}-${data.year}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Time:</span>
-                <span class="receipt-value">${data.hours}:${data.minutes}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">BayNo:</span>
-                <span class="receipt-value">${data.bayNo}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">NozzleNo:</span>
-                <span class="receipt-value">${data.nozzleNo}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Product:</span>
-                <span class="receipt-value">PETROL</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">PayMode:</span>
-                <span class="receipt-value">Cash</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Txn Id:</span>
-                <span class="receipt-value">${data.txnId}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Attendant:</span>
-                <span class="receipt-value"></span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Rate/Ltr:</span>
-                <span class="receipt-value">${data.rate}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Volume(Ltr.):</span>
-                <span class="receipt-value">${data.quantity}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Amount (Rs.):</span>
-                <span class="receipt-value">${data.total}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">PresetType:</span>
-                <span class="receipt-value">Local Amount</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">Preset Value:</span>
-                <span class="receipt-value">${data.presetValue}</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">VechNo:</span>
-                <span class="receipt-value"></span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">MobileNo:</span>
-                <span class="receipt-value">+91</span>
-              </div>
-              <div class="receipt-row">
-                <span class="receipt-label">VAT TIN:2739000298 V</span>
-                <span class="receipt-value"></span>
-              </div>
-            </div>
-
-            <div class="thank-you">
-              <p>THANK YOU !! VISIT AGAIN !!!</p>
-            </div>
-          </div>`;
-      }
-
-      function generateRandomReceipt(month, year) {
-        const stations = [
-          "Venkateswara And Co",
-          "Gurukrupa Service Station",
-          "Bharat Petroleum",
-          "Indian Oil Corporation",
-        ];
-
-        const startTime = document.getElementById("startTime").value;
-        const endTime = document.getElementById("endTime").value;
-        const minQuantity = parseInt(
-          document.getElementById("minQuantity").value
-        );
-        const maxQuantity = parseInt(
-          document.getElementById("maxQuantity").value
-        );
-
-        // Generate random data for the receipt
-        const randomTime = getRandomTime(startTime, endTime);
-        const quantity = Math.floor(
-          Math.random() * (maxQuantity - minQuantity + 1) + minQuantity
-        );
-
-        // Use petrol price from constants based on month
-        const rate = PETROL_PRICES[month];
-
-        const data = {
-          station: stations[Math.floor(Math.random() * stations.length)],
-          day: String(Math.floor(Math.random() * 28) + 1).padStart(2, "0"),
-          month: month,
-          year: year,
-          hours: randomTime.hours,
-          minutes: randomTime.minutes,
-          quantity: quantity,
-          rate: rate.toFixed(2),
-          billNo: Math.floor(Math.random() * 90000) + 10000,
-          pincode: 560000 + Math.floor(Math.random() * 100),
-          mid: Math.floor(Math.random() * 10) + 1,
-          bayNo: Math.floor(Math.random() * 4) + 1,
-          nozzleNo: Math.floor(Math.random() * 4) + 1,
-          txnId: Math.floor(Math.random() * 9000000) + 1000000,
-          presetValue: quantity.toFixed(2) + " Ltr",
-        };
-
-        // Calculate total
-        data.total = (data.quantity * rate).toFixed(2);
-
-        // Randomly choose template (0 or 1)
-        return {
-          html:
-            Math.random() < 0.5
-              ? generateTemplate1(data)
-              : generateTemplate2(data),
-          total: parseFloat(data.total),
-        };
-      }
-
-      function validateInputs() {
-        const startTime = document.getElementById("startTime").value;
-        const endTime = document.getElementById("endTime").value;
-        const minQuantity = parseInt(
-          document.getElementById("minQuantity").value
-        );
-        const maxQuantity = parseInt(
-          document.getElementById("maxQuantity").value
-        );
-        const targetAmount = parseFloat(
-          document.getElementById("targetAmount").value
-        );
-
-        if (startTime >= endTime) {
-          alert("End time must be after start time");
-          return false;
+            station: stationField ? stationField.value || "VENKATESWARA AND CO" : "VENKATESWARA AND CO",
+            address: addressField ? addressField.value || "MADIWALA" : "MADIWALA",
+            pincode: pincodeField ? pincodeField.value || "560068" : "560068",
+            gstNumber: gstNumberField ? gstNumberField.value || "" : "",
+            mid: 3,
+            date: "05/03/24",
+            time: "10:15",
+            billNo: 34567,
+            quantity: sampleQuantity,
+            rate: sampleRate,
+            total: sampleTotal,
+          };
         }
-
-        if (minQuantity >= maxQuantity) {
-          alert("Maximum quantity must be greater than minimum quantity");
-          return false;
+        if (templateId === "template2") {
+          const stationField = document.getElementById("bulkTemplate2Station");
+          const addressField = document.getElementById("bulkTemplate2Address");
+          const pincodeField = document.getElementById("bulkTemplate2Pincode");
+          const gstNumberField = document.getElementById("bulkTemplate2GstNumber");
+          const petrolPriceField = document.getElementById("bulkTemplate2PetrolPrice");
+          const sampleRate = petrolPriceField?.value ? parseFloat(petrolPriceField.value).toFixed(2) : "99.80";
+          const sampleQuantity = "36.80";
+          const sampleTotal = (parseFloat(sampleQuantity) * parseFloat(sampleRate)).toFixed(2);
+          return {
+            station: stationField ? stationField.value || "GURUKRUPA SERVICE STATION" : "GURUKRUPA SERVICE STATION",
+            address: addressField ? addressField.value || "HOSUR ROAD, SINGASANDARA" : "HOSUR ROAD, SINGASANDARA",
+            pincode: pincodeField ? pincodeField.value || "560114" : "560114",
+            gstNumber: gstNumberField ? gstNumberField.value || "" : "",
+            date: "05-03-2024",
+            time: "11:25",
+            bayNo: 2,
+            nozzleNo: 3,
+            txnId: 6853434,
+            quantity: sampleQuantity,
+            rate: sampleRate,
+            total: sampleTotal,
+            presetValue: (parseFloat(sampleTotal) * 0.96).toFixed(2),
+          };
         }
-
-        if (minQuantity < 1 || maxQuantity > 100) {
-          alert("Quantity must be between 1 and 100 liters");
-          return false;
-        }
-
-        if (targetAmount < 1000) {
-          alert("Target amount must be at least ₹1000");
-          return false;
-        }
-
-        return true;
+        return null;
       }
 
-      function generateMultiPagePDF() {
-        if (!validateInputs()) {
+      let currentPreviewTemplate = null;
+
+      function showBulkTemplatePreview(templateId) {
+        const sampleData = getSampleDataForTemplate(templateId);
+        if (!sampleData) return;
+
+        const previewHTML =
+          templateId === "template1"
+            ? generateTemplate1HTML(sampleData)
+            : generateTemplate2HTML(sampleData);
+
+        bulkTemplatePreviewContent.innerHTML = previewHTML;
+        bulkTemplatePreview.style.display = "block";
+        currentPreviewTemplate = templateId;
+
+        // Update button texts
+        bulkPreviewButtons.forEach((btn) => {
+          if (btn.dataset.template === templateId) {
+            btn.textContent = "Hide Preview";
+          } else {
+            btn.textContent = "Preview";
+          }
+        });
+      }
+
+      function hideBulkTemplatePreview() {
+        bulkTemplatePreview.style.display = "none";
+        currentPreviewTemplate = null;
+
+        // Update button texts
+        bulkPreviewButtons.forEach((btn) => {
+          btn.textContent = "Preview";
+        });
+      }
+
+      bulkPreviewButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const templateId = btn.dataset.template;
+          
+          // Toggle: if same template is shown, hide it; otherwise show the new one
+          if (currentPreviewTemplate === templateId) {
+            hideBulkTemplatePreview();
+          } else {
+            showBulkTemplatePreview(templateId);
+          }
+        });
+      });
+
+      // Update preview when station/address/petrol price fields change
+      const stationFields = [
+        "bulkTemplate1Station",
+        "bulkTemplate1Address",
+        "bulkTemplate1Pincode",
+        "bulkTemplate1GstNumber",
+        "bulkTemplate1PetrolPrice",
+        "bulkTemplate2Station",
+        "bulkTemplate2Address",
+        "bulkTemplate2Pincode",
+        "bulkTemplate2GstNumber",
+        "bulkTemplate2PetrolPrice",
+      ];
+
+      stationFields.forEach((fieldId) => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+          field.addEventListener("input", () => {
+            // If preview is showing, update it
+            if (currentPreviewTemplate) {
+              showBulkTemplatePreview(currentPreviewTemplate);
+            }
+          });
+        }
+      });
+
+      // Mode toggle handler
+      modeSingle.addEventListener("change", function() {
+        if (this.checked) {
+          singleBillSection.style.display = "block";
+          bulkGenerationSection.style.display = "none";
+          formAndPreviewContainer.style.display = "none";
+          hideBulkTemplatePreview();
+        }
+      });
+
+      modeBulk.addEventListener("change", function() {
+        if (this.checked) {
+          singleBillSection.style.display = "none";
+          bulkGenerationSection.style.display = "block";
+          formAndPreviewContainer.style.display = "none";
+          hideBulkTemplatePreview();
+        }
+      });
+
+      // Template selector change handler
+      memoTypeSelector.addEventListener("change", function () {
+        const selectedType = this.value;
+
+        // Hide all forms
+        template1Form.style.display = "none";
+        template2Form.style.display = "none";
+        formAndPreviewContainer.style.display = "none";
+
+        if (selectedType && TEMPLATE_CONFIG[selectedType]) {
+          currentTemplateId = selectedType;
+          const config = TEMPLATE_CONFIG[selectedType];
+          
+          // Show form and preview container
+          formAndPreviewContainer.style.display = "flex";
+          document.getElementById(`${config.id}Form`).style.display = "block";
+          
+          // Set active template in manager
+          templateManager.setTemplate(selectedType);
+        } else {
+          currentTemplateId = null;
+          memoPreview.innerHTML = "";
+        }
+      });
+
+      // PDF generation handlers
+      document.getElementById("generateTemplate1Btn").addEventListener("click", handlePDFGeneration);
+      document.getElementById("generateTemplate2Btn").addEventListener("click", handlePDFGeneration);
+
+      /**
+       * Unified PDF generation handler
+       */
+      async function handlePDFGeneration(event) {
+        if (!currentTemplateId) {
+          alert("Please select a template first.");
           return;
         }
 
-        const month = document.getElementById("monthSelector").value;
-        const year = document.getElementById("yearSelector").value;
-        const targetAmount = parseFloat(
-          document.getElementById("targetAmount").value
-        );
+        try {
+          // Update preview to ensure it's current
+          templateManager.updatePreview();
+          
+          // Get preview memo element
+          const previewElement = templateManager.getPreviewMemoElement();
+          
+          if (!previewElement) {
+            alert("Preview not found. Please wait a moment and try again.");
+            return;
+          }
 
-        // Create a temporary container
-        const container = document.createElement("div");
-        container.style.cssText = "padding: 20px;";
-
-        let currentTotal = 0;
-        let receipts = [];
-
-        // Generate receipts until target amount is reached or surpassed
-        while (currentTotal < targetAmount) {
-          const receipt = generateRandomReceipt(month, year);
-          receipts.push(receipt);
-          currentTotal += receipt.total;
-          container.innerHTML += receipt.html;
+          // Generate PDF
+          const result = await generatePDF(currentTemplateId, previewElement);
+          alert(result.message);
+        } catch (error) {
+          alert(error.message);
         }
-
-        // Add container to body temporarily
-        document.body.appendChild(container);
-
-        // Generate PDF with all receipts
-        const opt = {
-          margin: 0.5,
-          filename: `cash-memos-${month}-${year}-${targetAmount}.pdf`,
-          image: { 
-            type: "jpeg", 
-            quality: 0.7,  // Reduced quality for mobile-like look
-          },
-          html2canvas: {
-            scale: 1.5,  // Slightly reduced scale for less crisp look
-            useCORS: true,
-            logging: false,
-            backgroundColor: null,  // Transparent background
-            filter: function(element) {
-              // Apply black and white filter
-              if (element.tagName === 'IMG' || element.tagName === 'DIV') {
-                element.style.filter = 'grayscale(100%) contrast(120%) brightness(90%)';
-              }
-              return true;
-            }
-          },
-          jsPDF: {
-            unit: "in",
-            format: "letter",
-            orientation: "portrait",
-          },
-          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-        };
-
-        html2pdf()
-          .set(opt)
-          .from(container)
-          .save()
-          .then(() => {
-            document.body.removeChild(container);
-            alert(
-              `Generated ${
-                receipts.length
-              } receipts\nTarget Amount: ₹${targetAmount.toFixed(
-                2
-              )}\nActual Total: ₹${currentTotal.toFixed(2)}`
-            );
-          });
       }
 
-      // Make functions available globally
-      window.generateMultiPagePDF = generateMultiPagePDF;
-      window.downloadPDF = downloadPDF;
+      // Time range management
+      function addTimeRangeRow() {
+        const container = document.getElementById("timeRangesContainer");
+        const row = document.createElement("div");
+        row.className = "time-range-row";
+        row.style.cssText = "display: flex; gap: 10px; margin-bottom: 10px; align-items: center;";
+        row.innerHTML = `
+          <input type="time" class="time-start" value="09:00" style="flex: 1; padding: 5px;" />
+          <span>to</span>
+          <input type="time" class="time-end" value="17:00" style="flex: 1; padding: 5px;" />
+          <button type="button" class="remove-time-range" style="padding: 5px 10px; background: #dc3545; color: white; border: none; cursor: pointer; border-radius: 3px;">Remove</button>
+        `;
+        container.appendChild(row);
+        attachRemoveHandler(row);
+      }
+
+      function attachRemoveHandler(row) {
+        const removeBtn = row.querySelector(".remove-time-range");
+        removeBtn.addEventListener("click", () => {
+          const container = document.getElementById("timeRangesContainer");
+          if (container.children.length > 1) {
+            row.remove();
+          } else {
+            alert("At least one time range is required.");
+          }
+        });
+      }
+
+      // Attach remove handlers to existing rows
+      document.querySelectorAll(".time-range-row").forEach(row => attachRemoveHandler(row));
+
+      // Add time range button handler
+      document.getElementById("addTimeRangeBtn").addEventListener("click", addTimeRangeRow);
+
+      function getTimeRanges() {
+        const ranges = [];
+        document.querySelectorAll(".time-range-row").forEach(row => {
+          const start = row.querySelector(".time-start").value;
+          const end = row.querySelector(".time-end").value;
+          if (start && end) {
+            const [startHour, startMin] = start.split(":").map(Number);
+            const [endHour, endMin] = end.split(":").map(Number);
+            ranges.push({
+              startHour,
+              startMin,
+              endHour,
+              endMin
+            });
+          }
+        });
+        return ranges;
+      }
+
+      // Bulk generation handler
+      document.getElementById("generateBulkBtn").addEventListener("click", async function() {
+        const selectedTemplates = getSelectedBulkTemplates();
+        const month = parseInt(document.getElementById("bulkMonth").value);
+        const year = parseInt(document.getElementById("bulkYear").value);
+        const targetAmount = parseFloat(document.getElementById("bulkTargetAmount").value);
+        const minGapDays = parseInt(document.getElementById("bulkMinGap").value);
+        const quantityMin = parseFloat(document.getElementById("bulkQuantityMin").value);
+        const quantityMax = parseFloat(document.getElementById("bulkQuantityMax").value);
+        const timeRanges = getTimeRanges();
+
+        // Validation
+        if (!month || !year || !targetAmount) {
+          alert("Please fill all required fields.");
+          return;
+        }
+
+        if (!selectedTemplates.length) {
+          alert("Please select at least one template type.");
+          return;
+        }
+
+        if (quantityMin >= quantityMax) {
+          alert("Max quantity must be greater than min quantity.");
+          return;
+        }
+
+        if (targetAmount < 1000) {
+          alert("Target amount must be at least ₹1000.");
+          return;
+        }
+
+        try {
+          // Show loading
+          const btn = this;
+          const originalText = btn.textContent;
+          btn.textContent = "Generating...";
+          btn.disabled = true;
+
+          // Get custom station names, addresses, and petrol prices
+          const template1PetrolPrice = document.getElementById("bulkTemplate1PetrolPrice").value;
+          const template2PetrolPrice = document.getElementById("bulkTemplate2PetrolPrice").value;
+          
+          const customStations = {
+            template1: {
+              station: document.getElementById("bulkTemplate1Station").value || "VENKATESWARA AND CO",
+              address: document.getElementById("bulkTemplate1Address").value || "MADIWALA",
+              pincode: document.getElementById("bulkTemplate1Pincode").value || "560068",
+              gstNumber: document.getElementById("bulkTemplate1GstNumber").value || "",
+              petrolPrice: template1PetrolPrice ? parseFloat(template1PetrolPrice) : null,
+            },
+            template2: {
+              station: document.getElementById("bulkTemplate2Station").value || "GURUKRUPA SERVICE STATION",
+              address: document.getElementById("bulkTemplate2Address").value || "HOSUR ROAD, SINGASANDARA",
+              pincode: document.getElementById("bulkTemplate2Pincode").value || "560114",
+              gstNumber: document.getElementById("bulkTemplate2GstNumber").value || "",
+              petrolPrice: template2PetrolPrice ? parseFloat(template2PetrolPrice) : null,
+            },
+          };
+
+          // Validate time ranges
+          if (timeRanges.length === 0) {
+            alert("Please add at least one time range.");
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+          }
+
+          // Generate bulk bills
+          const bulkResult = generateBulkBills({
+            templateIds: selectedTemplates,
+            year,
+            month,
+            targetAmount,
+            minGapDays,
+            quantityRange: { min: quantityMin, max: quantityMax },
+            customStations,
+            timeRanges,
+          });
+
+          // Open bills in new window
+          const result = generateBulkPDF(
+            bulkResult,
+            selectedTemplates,
+            year,
+            month
+          );
+          alert(result.message);
+
+          btn.textContent = originalText;
+          btn.disabled = false;
+        } catch (error) {
+          alert(error.message);
+          const btn = document.getElementById("generateBulkBtn");
+          btn.textContent = "View Bulk Bills";
+          btn.disabled = false;
+        }
+      });
+
+      // Initialize default dates on page load
+      window.addEventListener("DOMContentLoaded", function () {
+        // Set current year
+        const currentYear = new Date().getFullYear();
+        document.getElementById("bulkYear").value = currentYear;
+        
+        // Set current month
+        const currentMonth = new Date().getMonth() + 1;
+        document.getElementById("bulkMonth").value = String(currentMonth).padStart(2, "0");
+
+        Object.keys(TEMPLATE_CONFIG).forEach(templateId => {
+          const config = TEMPLATE_CONFIG[templateId];
+          const dateField = document.getElementById(config.fields.date.id);
+          const timeField = document.getElementById(config.fields.time.id);
+          
+          if (dateField) {
+            dateField.value = new Date().toISOString().split("T")[0];
+          }
+          if (timeField) {
+            const now = new Date();
+            timeField.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+          }
+        });
+      });
     </script>
   </body>
 </html>
